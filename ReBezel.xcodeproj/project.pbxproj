@@ -11,9 +11,12 @@
 		1D369B0DC17790E110AD7DF2 /* BrightnessController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7407B11CD8DC83C83082753C /* BrightnessController.swift */; };
 		2494C354E021F67832751671 /* HUDView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F26CD90FC8D5E24BC0DF684 /* HUDView.swift */; };
 		82E6F0D49908D6D953432105 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB46BEAD83057AD68C092F07 /* main.swift */; };
+		906AA39D6E47C28ADB9A848F /* PreferencesWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52AF3739560BA4CEABD7AEFB /* PreferencesWindowController.swift */; };
+		A9C1BB4C5404DD3E55AE745C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E71A021C3DF01CC950B99123 /* Assets.xcassets */; };
 		B07ABCF668CEC0E3B97721C6 /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9385DBFBEBC6E501E420ABB7 /* Preferences.swift */; };
 		C734A3F9CBAF348C389FB452 /* VolumeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD678F8A83C9B5B01B1A89CC /* VolumeController.swift */; };
 		D07A723C0BA9EE92905376BE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B4F069F8E7813E789EB5F6 /* AppDelegate.swift */; };
+		D67618E7DF04A7F0802C873D /* OnboardingWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97FFFCCBB323E180C6A84760 /* OnboardingWindowController.swift */; };
 		EC9B64728D4FB6543F5844A2 /* MediaKeyTap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C8A04315BCE799D20743953 /* MediaKeyTap.swift */; };
 		F480B79BA8695382E187B087 /* HUDPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0295EF835E171409BEB26F28 /* HUDPanel.swift */; };
 		F82B937E3FF3C9C7CF04C1E5 /* HUDWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B30DBA533D37EB3652AADF92 /* HUDWindowController.swift */; };
@@ -22,17 +25,20 @@
 /* Begin PBXFileReference section */
 		0295EF835E171409BEB26F28 /* HUDPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HUDPanel.swift; sourceTree = "<group>"; };
 		1AC365A46187A448CCF5F0D4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		52AF3739560BA4CEABD7AEFB /* PreferencesWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesWindowController.swift; sourceTree = "<group>"; };
 		7407B11CD8DC83C83082753C /* BrightnessController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrightnessController.swift; sourceTree = "<group>"; };
 		78779006CA8D6FF03FCD72E9 /* LaunchAtLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchAtLogin.swift; sourceTree = "<group>"; };
 		7C8A04315BCE799D20743953 /* MediaKeyTap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaKeyTap.swift; sourceTree = "<group>"; };
 		9385DBFBEBC6E501E420ABB7 /* Preferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
+		97FFFCCBB323E180C6A84760 /* OnboardingWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingWindowController.swift; sourceTree = "<group>"; };
 		9F26CD90FC8D5E24BC0DF684 /* HUDView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HUDView.swift; sourceTree = "<group>"; };
 		A7B4F069F8E7813E789EB5F6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AD678F8A83C9B5B01B1A89CC /* VolumeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VolumeController.swift; sourceTree = "<group>"; };
 		B30DBA533D37EB3652AADF92 /* HUDWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HUDWindowController.swift; sourceTree = "<group>"; };
 		BB46BEAD83057AD68C092F07 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
-		D0BED27E2E8C3D0B0FEA5BAA /* Lumens.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Lumens.entitlements; sourceTree = "<group>"; };
-		EA34B71BDDCEF5670D296698 /* Lumens.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lumens.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D0BED27E2E8C3D0B0FEA5BAA /* ReBezel.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ReBezel.entitlements; sourceTree = "<group>"; };
+		E71A021C3DF01CC950B99123 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		EA34B71BDDCEF5670D296698 /* ReBezel.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ReBezel.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -67,7 +73,7 @@
 		72EA947DD9628DD82206487E = {
 			isa = PBXGroup;
 			children = (
-				FA669C7053E01D0AB70CF0DD /* Lumens */,
+				FA669C7053E01D0AB70CF0DD /* ReBezel */,
 				9328F5B669720BAD6D52B79F /* Products */,
 			);
 			sourceTree = "<group>";
@@ -77,6 +83,7 @@
 			children = (
 				78779006CA8D6FF03FCD72E9 /* LaunchAtLogin.swift */,
 				9385DBFBEBC6E501E420ABB7 /* Preferences.swift */,
+				52AF3739560BA4CEABD7AEFB /* PreferencesWindowController.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -92,43 +99,54 @@
 		9328F5B669720BAD6D52B79F /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				EA34B71BDDCEF5670D296698 /* Lumens.app */,
+				EA34B71BDDCEF5670D296698 /* ReBezel.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		FA669C7053E01D0AB70CF0DD /* Lumens */ = {
+		C2C869E177BF378A8EEFF2E3 /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
+				97FFFCCBB323E180C6A84760 /* OnboardingWindowController.swift */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		FA669C7053E01D0AB70CF0DD /* ReBezel */ = {
+			isa = PBXGroup;
+			children = (
+				E71A021C3DF01CC950B99123 /* Assets.xcassets */,
 				1AC365A46187A448CCF5F0D4 /* Info.plist */,
-				D0BED27E2E8C3D0B0FEA5BAA /* Lumens.entitlements */,
+				D0BED27E2E8C3D0B0FEA5BAA /* ReBezel.entitlements */,
 				6FEED286BA199FEEA516BE47 /* App */,
 				6D0509B3509CC6C596999200 /* HUD */,
 				805F3934E1C5212968F8F039 /* MediaKeys */,
+				C2C869E177BF378A8EEFF2E3 /* Onboarding */,
 				792292E86D39F2E0B087375F /* Settings */,
 				1F8B8FB3E4826A06A787CBC7 /* System */,
 			);
-			path = Lumens;
+			path = ReBezel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		94A66F802C6693EF196B969A /* Lumens */ = {
+		94A66F802C6693EF196B969A /* ReBezel */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 4656B7E55C105FE45DFABC69 /* Build configuration list for PBXNativeTarget "Lumens" */;
+			buildConfigurationList = 4656B7E55C105FE45DFABC69 /* Build configuration list for PBXNativeTarget "ReBezel" */;
 			buildPhases = (
 				9DC9B9402683A296A3E5BA9F /* Sources */,
+				E6F0E21ACA4C97E19DE44743 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = Lumens;
+			name = ReBezel;
 			packageProductDependencies = (
 			);
-			productName = Lumens;
-			productReference = EA34B71BDDCEF5670D296698 /* Lumens.app */;
+			productName = ReBezel;
+			productReference = EA34B71BDDCEF5670D296698 /* ReBezel.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -141,12 +159,11 @@
 				LastUpgradeCheck = 2700;
 				TargetAttributes = {
 					94A66F802C6693EF196B969A = {
-						DevelopmentTeam = SPRLQ9JET8;
 						ProvisioningStyle = Automatic;
 					};
 				};
 			};
-			buildConfigurationList = 51DFA6FABF2EDE3237343337 /* Build configuration list for PBXProject "Lumens" */;
+			buildConfigurationList = 51DFA6FABF2EDE3237343337 /* Build configuration list for PBXProject "ReBezel" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -160,10 +177,21 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				94A66F802C6693EF196B969A /* Lumens */,
+				94A66F802C6693EF196B969A /* ReBezel */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		E6F0E21ACA4C97E19DE44743 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A9C1BB4C5404DD3E55AE745C /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		9DC9B9402683A296A3E5BA9F /* Sources */ = {
@@ -177,7 +205,9 @@
 				F82B937E3FF3C9C7CF04C1E5 /* HUDWindowController.swift in Sources */,
 				05D07982D048F182D5C610EF /* LaunchAtLogin.swift in Sources */,
 				EC9B64728D4FB6543F5844A2 /* MediaKeyTap.swift in Sources */,
+				D67618E7DF04A7F0802C873D /* OnboardingWindowController.swift in Sources */,
 				B07ABCF668CEC0E3B97721C6 /* Preferences.swift in Sources */,
+				906AA39D6E47C28ADB9A848F /* PreferencesWindowController.swift in Sources */,
 				C734A3F9CBAF348C389FB452 /* VolumeController.swift in Sources */,
 				82E6F0D49908D6D953432105 /* main.swift in Sources */,
 			);
@@ -311,20 +341,21 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = Lumens/Lumens.entitlements;
+				CODE_SIGN_ENTITLEMENTS = ReBezel/ReBezel.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = SPRLQ9JET8;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = NO;
-				INFOPLIST_FILE = Lumens/Info.plist;
+				INFOPLIST_FILE = ReBezel/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
 				MARKETING_VERSION = 0.1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.simonelhoej.Lumens;
-				PRODUCT_NAME = Lumens;
+				PRODUCT_BUNDLE_IDENTIFIER = com.simonelhoej.ReBezel;
+				PRODUCT_NAME = ReBezel;
 				SDKROOT = macosx;
 				SWIFT_STRICT_CONCURRENCY = complete;
 			};
@@ -334,20 +365,21 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = Lumens/Lumens.entitlements;
+				CODE_SIGN_ENTITLEMENTS = ReBezel/ReBezel.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = SPRLQ9JET8;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = NO;
-				INFOPLIST_FILE = Lumens/Info.plist;
+				INFOPLIST_FILE = ReBezel/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
 				MARKETING_VERSION = 0.1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.simonelhoej.Lumens;
-				PRODUCT_NAME = Lumens;
+				PRODUCT_BUNDLE_IDENTIFIER = com.simonelhoej.ReBezel;
+				PRODUCT_NAME = ReBezel;
 				SDKROOT = macosx;
 				SWIFT_STRICT_CONCURRENCY = complete;
 			};
@@ -356,7 +388,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		4656B7E55C105FE45DFABC69 /* Build configuration list for PBXNativeTarget "Lumens" */ = {
+		4656B7E55C105FE45DFABC69 /* Build configuration list for PBXNativeTarget "ReBezel" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				F07214A5CB0D0E5CD6E26831 /* Debug */,
@@ -365,7 +397,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		51DFA6FABF2EDE3237343337 /* Build configuration list for PBXProject "Lumens" */ = {
+		51DFA6FABF2EDE3237343337 /* Build configuration list for PBXProject "ReBezel" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				3623B5242FF8BA27B733FD6B /* Debug */,

@@ -5,7 +5,7 @@ import os
 /// Reads and writes the output volume of the default audio device via CoreAudio.
 /// Changing volume this way does not trigger the system HUD.
 struct VolumeController {
-    private static let logger = Logger(subsystem: "com.simonelhoej.Lumens", category: "Volume")
+    private static let logger = Logger(subsystem: "com.simonelhoej.ReBezel", category: "Volume")
 
     static func defaultOutputDevice() -> AudioDeviceID? {
         var address = AudioObjectPropertyAddress(

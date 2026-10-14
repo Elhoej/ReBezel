@@ -29,7 +29,7 @@ struct MediaKeyEvent: Sendable {
 final class MediaKeyTap {
     typealias Handler = @MainActor (MediaKeyEvent) -> Bool
 
-    nonisolated private static let logger = Logger(subsystem: "com.simonelhoej.Lumens", category: "MediaKeyTap")
+    nonisolated private static let logger = Logger(subsystem: "com.simonelhoej.ReBezel", category: "MediaKeyTap")
 
     private let handler: Handler
     private var port: CFMachPort?

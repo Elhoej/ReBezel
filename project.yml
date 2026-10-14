@@ -1,4 +1,4 @@
-name: Lumens
+name: ReBezel
 options:
   bundleIdPrefix: com.simonelhoej
   createIntermediateGroups: true
@@ -11,26 +11,26 @@ settings:
     SWIFT_VERSION: "6.0"
     MACOSX_DEPLOYMENT_TARGET: "26.0"
 targets:
-  Lumens:
+  ReBezel:
     type: application
     platform: macOS
     sources:
-      - path: Lumens
+      - path: ReBezel
     info:
-      path: Lumens/Info.plist
+      path: ReBezel/Info.plist
       properties:
-        CFBundleDisplayName: Lumens
+        CFBundleDisplayName: ReBezel
         LSUIElement: true
         LSMinimumSystemVersion: $(MACOSX_DEPLOYMENT_TARGET)
         NSHumanReadableCopyright: ""
     entitlements:
-      path: Lumens/Lumens.entitlements
+      path: ReBezel/ReBezel.entitlements
       properties:
         com.apple.security.app-sandbox: false
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.simonelhoej.Lumens
-        PRODUCT_NAME: Lumens
+        PRODUCT_BUNDLE_IDENTIFIER: com.simonelhoej.ReBezel
+        PRODUCT_NAME: ReBezel
         CODE_SIGN_STYLE: Automatic
         ENABLE_HARDENED_RUNTIME: true
         GENERATE_INFOPLIST_FILE: false

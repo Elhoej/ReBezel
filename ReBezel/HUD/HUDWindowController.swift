@@ -15,11 +15,28 @@ final class HUDWindowController {
     private var hideTask: Task<Void, Never>?
 
     private let size = NSSize(width: 200, height: 200)
+    /// Transparent space around the bezel. Liquid Glass draws its own soft
+    /// shadow outside its shape; without room for it the shadow is clipped
+    /// at the window edge and shows up as dark, square corners.
+    private let shadowMargin: CGFloat = 40
     /// Distance from the screen edge for the top and bottom positions.
     private let edgeOffset: CGFloat = 140
     private let visibleDuration: Duration = .seconds(1.5)
+    private let captionDuration: Duration = .seconds(2.5)
 
+    /// Shows the usual symbol-plus-level-bar bezel.
     func show(symbol: String, level: Float) {
+        present(symbol: symbol, content: .level(level), duration: visibleDuration)
+    }
+
+    /// Shows a symbol with a line of text in place of the level bar, e.g. a
+    /// checkmark and "Voilá!" once onboarding is complete. Stays a bit longer
+    /// than a key press bezel so the text can be read.
+    func show(symbol: String, caption: String) {
+        present(symbol: symbol, content: .caption(caption), duration: captionDuration)
+    }
+
+    private func present(symbol: String, content: HUDView.Content, duration: Duration) {
         let style = Preferences.hudStyle
         if builtStyle != style {
             for entry in panels {
@@ -37,7 +54,7 @@ final class HUDWindowController {
         for (index, screen) in screens.enumerated() {
             let entry = panels[index]
             entry.view.symbolName = symbol
-            entry.view.level = level
+            entry.view.content = content
             entry.panel.setFrameOrigin(origin(on: screen))
             entry.panel.orderFrontRegardless()
         }
@@ -50,7 +67,7 @@ final class HUDWindowController {
         }
 
         hideTask = Task { [weak self] in
-            try? await Task.sleep(for: self?.visibleDuration ?? .seconds(1.5))
+            try? await Task.sleep(for: duration)
             guard !Task.isCancelled else { return }
             self?.fadeOut()
         }
@@ -88,7 +105,7 @@ final class HUDWindowController {
         case .top:
             y = frame.maxY - edgeOffset - size.height
         }
-        return NSPoint(x: frame.midX - size.width / 2, y: y)
+        return NSPoint(x: frame.midX - size.width / 2 - shadowMargin, y: y - shadowMargin)
     }
 
     private func ensurePanelCount(_ count: Int) {
@@ -98,8 +115,9 @@ final class HUDWindowController {
     }
 
     private func makePanel(style: HUDStyle) -> ScreenPanel {
+        let panelSize = NSSize(width: size.width + shadowMargin * 2, height: size.height + shadowMargin * 2)
         let panel = HUDPanel(
-            contentRect: NSRect(origin: .zero, size: size),
+            contentRect: NSRect(origin: .zero, size: panelSize),
             styleMask: [.borderless, .nonactivatingPanel],
             backing: .buffered,
             defer: false
@@ -117,14 +135,20 @@ final class HUDWindowController {
         let view = HUDView(frame: NSRect(origin: .zero, size: size))
         view.autoresizingMask = [.width, .height]
 
+        let background: NSView
         switch style {
         case .classic:
-            panel.contentView = makeClassicBackground(content: view)
+            background = makeClassicBackground(content: view)
         case .liquidGlassRegular:
-            panel.contentView = makeGlassBackground(content: view, style: .regular)
+            background = makeGlassBackground(content: view, style: .regular)
         case .liquidGlassClear:
-            panel.contentView = makeGlassBackground(content: view, style: .clear)
+            background = makeGlassBackground(content: view, style: .clear)
         }
+        background.frame.origin = NSPoint(x: shadowMargin, y: shadowMargin)
+
+        let container = NSView(frame: NSRect(origin: .zero, size: panelSize))
+        container.addSubview(background)
+        panel.contentView = container
 
         panel.alphaValue = 0
         return ScreenPanel(panel: panel, view: view)

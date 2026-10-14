@@ -6,7 +6,7 @@ import os
 /// framework (the same calls MonitorControl uses). Setting brightness this way
 /// does not trigger the system HUD.
 final class BrightnessController: Sendable {
-    private static let logger = Logger(subsystem: "com.simonelhoej.Lumens", category: "Brightness")
+    private static let logger = Logger(subsystem: "com.simonelhoej.ReBezel", category: "Brightness")
 
     private typealias GetBrightness = @convention(c) (CGDirectDisplayID, UnsafeMutablePointer<Float>) -> Int32
     private typealias SetBrightness = @convention(c) (CGDirectDisplayID, Float) -> Int32

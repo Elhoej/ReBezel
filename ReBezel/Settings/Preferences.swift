@@ -37,6 +37,7 @@ enum Preferences {
     private static let allScreensKey = "showOnAllScreens"
     private static let styleKey = "hudStyle"
     private static let hideMenuBarIconKey = "hideMenuBarIcon"
+    private static let didCompleteOnboardingKey = "didCompleteOnboarding"
 
     static var hudPosition: HUDPosition {
         get {
@@ -58,6 +59,14 @@ enum Preferences {
     static var hideMenuBarIcon: Bool {
         get { UserDefaults.standard.bool(forKey: hideMenuBarIconKey) }
         set { UserDefaults.standard.set(newValue, forKey: hideMenuBarIconKey) }
+    }
+
+    /// Set once the first-run walkthrough has been dismissed, whether or not
+    /// every step was completed. Delete the key to see it again:
+    /// `defaults delete com.simonelhoej.ReBezel didCompleteOnboarding`.
+    static var didCompleteOnboarding: Bool {
+        get { UserDefaults.standard.bool(forKey: didCompleteOnboardingKey) }
+        set { UserDefaults.standard.set(newValue, forKey: didCompleteOnboardingKey) }
     }
 
     static var hudStyle: HUDStyle {

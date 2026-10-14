@@ -3,11 +3,11 @@ import ServiceManagement
 import os
 
 /// Registers the app as a login item via SMAppService. Enabled by default on
-/// first launch; afterwards the user's choice in the menu (or in System
+/// first launch; afterwards the user's choice in Preferences (or in System
 /// Settings → Login Items) is respected.
 @MainActor
 enum LaunchAtLogin {
-    private static let logger = Logger(subsystem: "com.simonelhoej.Lumens", category: "LaunchAtLogin")
+    private static let logger = Logger(subsystem: "com.simonelhoej.ReBezel", category: "LaunchAtLogin")
     private static let didApplyDefaultKey = "didApplyDefaultLaunchAtLogin"
 
     static var isEnabled: Bool {
