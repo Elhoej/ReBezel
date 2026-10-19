@@ -47,9 +47,6 @@ ReBezel lives in the menu bar and has no Dock icon. It can start at login, and y
 the menu bar icon entirely. To get the icon back, open ReBezel again from Finder, Spotlight or
 Launchpad.
 
-It checks for updates once a day, shows you the release notes, and installs only when you say
-so. The app is signed with a Developer ID and
-notarized by Apple, so macOS opens it without a Gatekeeper warning.
 
 ## Getting started
 
