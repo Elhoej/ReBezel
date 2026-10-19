@@ -24,9 +24,10 @@ final class HUDWindowController {
     private let visibleDuration: Duration = .seconds(1.5)
     private let captionDuration: Duration = .seconds(2.5)
 
-    /// Shows the usual symbol-plus-level-bar bezel.
-    func show(symbol: String, level: Float) {
-        present(symbol: symbol, content: .level(level), duration: visibleDuration)
+    /// Shows the usual symbol-plus-level-bar bezel, on `display` if given and
+    /// otherwise on the active screen.
+    func show(symbol: String, level: Float, on display: CGDirectDisplayID? = nil) {
+        present(symbol: symbol, content: .level(level), duration: visibleDuration, display: display)
     }
 
     /// Shows a symbol with a line of text in place of the level bar, e.g. a
@@ -36,7 +37,7 @@ final class HUDWindowController {
         present(symbol: symbol, content: .caption(caption), duration: captionDuration)
     }
 
-    private func present(symbol: String, content: HUDView.Content, duration: Duration) {
+    private func present(symbol: String, content: HUDView.Content, duration: Duration, display: CGDirectDisplayID? = nil) {
         let style = Preferences.hudStyle
         if builtStyle != style {
             for entry in panels {
@@ -46,7 +47,7 @@ final class HUDWindowController {
             builtStyle = style
         }
 
-        let screens = targetScreens()
+        let screens = targetScreens(display: display)
         ensurePanelCount(screens.count)
 
         hideTask?.cancel()
@@ -83,10 +84,13 @@ final class HUDWindowController {
         }
     }
 
-    private func targetScreens() -> [NSScreen] {
+    private func targetScreens(display: CGDirectDisplayID?) -> [NSScreen] {
         let screens = NSScreen.screens
         if Preferences.showOnAllScreens, screens.count > 1 {
             return screens
+        }
+        if let display, let screen = screens.first(where: { $0.displayID == display }) {
+            return [screen]
         }
         let active = screens.first { $0.frame.contains(NSEvent.mouseLocation) }
             ?? NSScreen.main
@@ -185,5 +189,11 @@ final class HUDWindowController {
         content.trackColor = NSColor(white: 1, alpha: 0.22)
         glass.contentView = content
         return glass
+    }
+}
+
+private extension NSScreen {
+    var displayID: CGDirectDisplayID? {
+        (deviceDescription[NSDeviceDescriptionKey("NSScreenNumber")] as? NSNumber)?.uint32Value
     }
 }

@@ -10,6 +10,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var permissionPollTask: Task<Void, Never>?
     private let hud = HUDWindowController()
     private let brightness = BrightnessController()
+    private let updater = AppUpdater()
     private lazy var preferences = makePreferencesWindowController()
     private var onboarding: OnboardingWindowController?
 
@@ -62,10 +63,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         item.button?.image = NSImage(systemSymbolName: "square.bottomthird.inset.filled", accessibilityDescription: "ReBezel")
 
         let menu = NSMenu()
-        menu.addItem(withTitle: "ReBezel", action: nil, keyEquivalent: "")
-        menu.addItem(.separator())
         menu.addItem(withTitle: "Preferences…", action: #selector(showPreferences), keyEquivalent: ",")
-        menu.addItem(.separator())
+        menu.addItem(updater.makeMenuItem())
         menu.addItem(withTitle: "Open Accessibility Settings…", action: #selector(openAccessibilitySettings), keyEquivalent: "")
         menu.addItem(.separator())
         menu.addItem(withTitle: "Quit ReBezel", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q")
@@ -76,7 +75,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     // MARK: - Preferences
 
     private func makePreferencesWindowController() -> PreferencesWindowController {
-        let controller = PreferencesWindowController()
+        let controller = PreferencesWindowController(updater: updater)
         controller.onHUDSettingChanged = { [weak self] in
             // Preview the new look/spot right away.
             self?.hud.show(symbol: "sun.max", level: 0.5)
@@ -211,12 +210,17 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             return true
 
         case .brightnessUp, .brightnessDown:
-            guard brightness.isAvailable else { return false }
+            // Control targets an external display, as the native shortcut does.
+            // With no display to change, let the system handle the key.
+            let display = event.modifiers.contains(.control)
+                ? brightness.externalDisplay()
+                : brightness.primaryDisplay()
+            guard let display else { return false }
             if event.isDown, opensSettings(event) {
                 if !event.isRepeat { openSettingsPane("com.apple.Displays-Settings.extension") }
                 return true
             }
-            if event.isDown { handleBrightness(event) }
+            if event.isDown { handleBrightness(event, display: display) }
             return true
 
         case .illuminationUp, .illuminationDown:
@@ -271,13 +275,17 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         hud.show(symbol: silent ? "speaker.slash" : "speaker.wave.3", level: silent ? 0 : value)
     }
 
-    private func handleBrightness(_ event: MediaKeyEvent) {
-        guard let current = brightness.brightness() else { return }
+    private func handleBrightness(_ event: MediaKeyEvent, display: CGDirectDisplayID) {
+        guard let current = brightness.brightness(of: display) else { return }
         let delta = event.key == .brightnessUp ? step(for: event) : -step(for: event)
         let value = snap(current + delta, step: step(for: event))
-        brightness.setBrightness(value)
-        Self.logger.info("Brightness \(event.key.rawValue): \(value) step=\(self.step(for: event)) modifiers=\(event.modifiers.rawValue)")
-        hud.show(symbol: "sun.max", level: value)
+        brightness.setBrightness(value, of: display)
+        Self.logger.info("Brightness \(event.key.rawValue): \(value) display=\(display) step=\(self.step(for: event)) modifiers=\(event.modifiers.rawValue)")
+        // Control+Brightness may change a display other than the one under the
+        // cursor, so the bezel goes on that display. Plain keys keep showing it
+        // on the active screen.
+        let bezelDisplay = event.modifiers.contains(.control) ? display : nil
+        hud.show(symbol: "sun.max", level: value, on: bezelDisplay)
     }
 
     /// Clamp to 0...1 and align to the step grid so repeated presses land on clean values.

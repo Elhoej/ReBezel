@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+<defs>
+  <linearGradient id="c" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="512" y2="512">
+    <stop offset="0" stop-color="#0A8F94"/><stop offset="0.5" stop-color="#0F4FB8"/><stop offset="1" stop-color="#0B1E7A"/>
+  </linearGradient>
+  <linearGradient id="w" gradientUnits="userSpaceOnUse" x1="512" y1="512" x2="1024" y2="1024">
+    <stop offset="0" stop-color="#A3164F"/><stop offset="0.45" stop-color="#C2471F"/><stop offset="1" stop-color="#C98A12"/>
+  </linearGradient>
+  <radialGradient id="cg" gradientUnits="userSpaceOnUse" cx="124" cy="464" r="460">
+    <stop offset="0" stop-color="#1FB8D6" stop-opacity="0.7"/><stop offset="1" stop-color="#1FB8D6" stop-opacity="0"/>
+  </radialGradient>
+  <radialGradient id="wg" gradientUnits="userSpaceOnUse" cx="724" cy="724" r="420">
+    <stop offset="0" stop-color="#F2B640" stop-opacity="0.85"/><stop offset="1" stop-color="#F2B640" stop-opacity="0"/>
+  </radialGradient>
+</defs>
+<rect width="1024" height="1024" fill="url(#w)"/>
+<path d="M1024 0 L1024 1024 L0 1024 Z" fill="url(#wg)"/>
+<path d="M0 0 L1024 0 L0 1024 Z" fill="url(#c)"/>
+<path d="M0 0 L1024 0 L0 1024 Z" fill="url(#cg)"/>
+</svg>

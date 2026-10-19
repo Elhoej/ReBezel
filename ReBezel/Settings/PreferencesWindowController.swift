@@ -2,7 +2,7 @@ import Cocoa
 
 /// A single-pane Preferences window holding every user-facing option.
 /// The window is built in code (the app has no storyboard) and reads its
-/// initial state from `Preferences` / `LaunchAtLogin` each time it is shown.
+/// initial state from `Preferences` / `LaunchAtLogin` / `AppUpdater` each time it is shown.
 @MainActor
 final class PreferencesWindowController: NSWindowController {
     /// Called after a setting that affects the bezel changes, so the owner can preview it.
@@ -14,10 +14,14 @@ final class PreferencesWindowController: NSWindowController {
     private let stylePopUp = NSPopUpButton(frame: .zero, pullsDown: false)
     private let allScreensCheckbox = NSButton(checkboxWithTitle: "Show on all screens", target: nil, action: nil)
     private let launchAtLoginCheckbox = NSButton(checkboxWithTitle: "Launch at login", target: nil, action: nil)
+    private let automaticUpdatesCheckbox = NSButton(checkboxWithTitle: "Automatically check for updates", target: nil, action: nil)
     private let hideIconButton = NSButton(title: "Hide Menu Bar Icon…", target: nil, action: nil)
     private let hideIconNote = NSTextField(wrappingLabelWithString: "")
 
-    init() {
+    private let updater: AppUpdater
+
+    init(updater: AppUpdater) {
+        self.updater = updater
         let window = NSWindow(
             contentRect: .zero,
             styleMask: [.titled, .closable],
@@ -71,38 +75,43 @@ final class PreferencesWindowController: NSWindowController {
         launchAtLoginCheckbox.target = self
         launchAtLoginCheckbox.action = #selector(launchAtLoginChanged)
 
+        automaticUpdatesCheckbox.target = self
+        automaticUpdatesCheckbox.action = #selector(automaticUpdatesChanged)
+
         hideIconButton.target = self
         hideIconButton.action = #selector(hideMenuBarIcon)
 
         hideIconNote.font = .systemFont(ofSize: NSFont.smallSystemFontSize)
         hideIconNote.textColor = .secondaryLabelColor
-        hideIconNote.preferredMaxLayoutWidth = 260
+        hideIconNote.preferredMaxLayoutWidth = 280
 
         let grid = NSGridView(views: [
             [label("Position:"), positionPopUp],
             [label("Style:"), stylePopUp],
             [NSGridCell.emptyContentView, allScreensCheckbox],
             [label("Startup:"), launchAtLoginCheckbox],
+            [label("Updates:"), automaticUpdatesCheckbox],
             [label("Menu bar:"), hideIconButton],
             [NSGridCell.emptyContentView, hideIconNote],
         ])
-        grid.rowSpacing = 10
+        grid.rowSpacing = 14
         grid.columnSpacing = 8
         grid.column(at: 0).xPlacement = .trailing
         grid.column(at: 1).xPlacement = .leading
         grid.rowAlignment = .firstBaseline
-        // A little extra air between the bezel settings and the app settings.
-        grid.row(at: 3).topPadding = 8
-        grid.row(at: 5).topPadding = -4
+        // Extra air between the bezel settings and the app settings.
+        grid.row(at: 3).topPadding = 12
+        grid.row(at: 5).topPadding = 4
+        grid.row(at: 6).topPadding = -6
 
         let container = NSView()
         container.addSubview(grid)
         grid.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            grid.topAnchor.constraint(equalTo: container.topAnchor, constant: 20),
-            grid.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 20),
-            grid.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -20),
-            grid.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -20),
+            grid.topAnchor.constraint(equalTo: container.topAnchor, constant: 24),
+            grid.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 24),
+            grid.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -24),
+            grid.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -24),
         ])
         return container
     }
@@ -117,12 +126,25 @@ final class PreferencesWindowController: NSWindowController {
         stylePopUp.selectItem(at: HUDStyle.allCases.firstIndex(of: Preferences.hudStyle) ?? 0)
         allScreensCheckbox.state = Preferences.showOnAllScreens ? .on : .off
         launchAtLoginCheckbox.state = LaunchAtLogin.isEnabled ? .on : .off
+        automaticUpdatesCheckbox.state = updater.automaticallyChecksForUpdates ? .on : .off
 
         let hidden = Preferences.hideMenuBarIcon
         hideIconButton.isEnabled = !hidden
         hideIconNote.stringValue = hidden
             ? "The icon is hidden. Open ReBezel again from Finder, Spotlight or Launchpad to show it."
             : "ReBezel keeps running without the icon. Open ReBezel again to bring it back."
+        fitWindowToContent()
+    }
+
+    /// Resizes the window to the content's fitting size, keeping its top edge in place.
+    /// The note's text (and so its height) changes in `refresh()`, and the autosaved
+    /// frame may come from an older layout, so the size can't be fixed once in `init`.
+    private func fitWindowToContent() {
+        guard let window, let content = window.contentView else { return }
+        content.layoutSubtreeIfNeeded()
+        var frame = window.frameRect(forContentRect: NSRect(origin: .zero, size: content.fittingSize))
+        frame.origin = NSPoint(x: window.frame.minX, y: window.frame.maxY - frame.height)
+        window.setFrame(frame, display: true)
     }
 
     // MARK: - Actions
@@ -150,6 +172,10 @@ final class PreferencesWindowController: NSWindowController {
         LaunchAtLogin.setEnabled(launchAtLoginCheckbox.state == .on)
         // Registration can fail; reflect what actually happened.
         launchAtLoginCheckbox.state = LaunchAtLogin.isEnabled ? .on : .off
+    }
+
+    @objc private func automaticUpdatesChanged() {
+        updater.automaticallyChecksForUpdates = automaticUpdatesCheckbox.state == .on
     }
 
     @objc private func hideMenuBarIcon() {
