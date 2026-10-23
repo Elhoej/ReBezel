@@ -7,7 +7,10 @@ import os
 enum HalloweenAssets {
     private static let logger = Logger(subsystem: "com.simonelhoej.ReBezel", category: "Halloween")
 
-    /// One bat flapping in place (0.8 s loop). Black; tint it for dark wallpapers.
+    /// Unlit at progress 0, fully lit at 1. A stand-in drawn from simple
+    /// shapes until the real artwork is ready.
+    static let pumpkin = load("pumpkin")
+    /// One bat flapping in place (0.8 s loop). Black; tinted at runtime.
     static let batFlying = load("bat-flying")
     /// A spider dropping in on its rope (frames 0–37), then swinging.
     static let spider = load("spider")

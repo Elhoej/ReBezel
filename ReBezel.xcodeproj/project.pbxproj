@@ -10,7 +10,9 @@
 		074ACFA43AD533FFBC249977 /* HUDWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2439F22543C412740E22419 /* HUDWindowController.swift */; };
 		10172624F2C1B53ED6DCF67E /* MediaKeyTap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2713868130B80E0AF65E7A /* MediaKeyTap.swift */; };
 		116F92CA4FE14A37C54E468F /* OnboardingWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BCFEFDD7FFC8AB0236B3D9 /* OnboardingWindowController.swift */; };
+		1F3A50B6B0EA497B05DCB2C8 /* BatColony.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AFFDAF9B228D447D1FB9B09 /* BatColony.swift */; };
 		27F359EBAE14F1FD683C32CD /* VolumeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E7D5E45893818938CD394A0 /* VolumeController.swift */; };
+		2ADC3E724B4909F95B73045D /* pumpkin.json in Resources */ = {isa = PBXBuildFile; fileRef = 28A9878F713A4F458EDA5D84 /* pumpkin.json */; };
 		37774FCE93D4ED7D229F2CDB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D273B0D260E061FDC04CC835 /* Assets.xcassets */; };
 		4BC0FE56CAB265BF187362B1 /* SeasonalThemeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F30207189575DE83BF253E16 /* SeasonalThemeTests.swift */; };
 		5DDEF70AD89150E6D3BFC82C /* SeasonalScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CFF32C760686BC159E9887E /* SeasonalScene.swift */; };
@@ -20,6 +22,7 @@
 		6B4ABDFF2292E059833443D0 /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1133DD43B2CC0479B2EBAD5 /* Preferences.swift */; };
 		79A88D8FB87C696FB2242A2C /* SeasonalTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4760CDB380076CE00731E946 /* SeasonalTheme.swift */; };
 		7C027A5D7917D1DE3E87911E /* BezelDebugMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B6EE1024B462005F616B97 /* BezelDebugMenu.swift */; };
+		7C4AE834020394D1B3F3CA33 /* PumpkinGlyph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846795841616FCCAA63DF492 /* PumpkinGlyph.swift */; };
 		8225C0ACDA411E01EFFD90CE /* HalloweenScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = CECEF8FA17168DFD3CFA62FC /* HalloweenScene.swift */; };
 		8417CCA257E884657CE3BF4B /* spider.json in Resources */ = {isa = PBXBuildFile; fileRef = 3EAF78655A857CC49DC379B1 /* spider.json */; };
 		885B4080D59A03EFE2F818EC /* HUDTransitionTrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DBD4C9458B1540DC5A244C /* HUDTransitionTrackerTests.swift */; };
@@ -30,6 +33,7 @@
 		9EC82BE9AA994AFFDA2D0F75 /* HUDReading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46DA6880EA421BF5088821A7 /* HUDReading.swift */; };
 		B83312C9ED5EACE14BA4DC4E /* HUDView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 527124EAFF475CC2382C60D7 /* HUDView.swift */; };
 		C0357FED7AB63734773928BF /* LaunchAtLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 169B7D7E060C2B828564A47A /* LaunchAtLogin.swift */; };
+		C16CF3D75C50D5BBD56C3CA8 /* BatColonyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AD23C640CE5F8D90B35A61A /* BatColonyTests.swift */; };
 		EC93699F042C8005BAD39CA9 /* LevelChangeObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810671186AF7776E5337FAD1 /* LevelChangeObserver.swift */; };
 		F0AF720EC7237FE38FCB37A1 /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = CA8F2D2FB87DB84E7AD08FB8 /* Sparkle */; };
 		F332FFBBCA93EB7CB7ECA37A /* HalloweenAssetsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F9BC4D055BB362337CC6A75 /* HalloweenAssetsTests.swift */; };
@@ -54,10 +58,13 @@
 		1A37F2B9DC8425DF432CA5B9 /* PreferencesWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesWindowController.swift; sourceTree = "<group>"; };
 		1E7D5E45893818938CD394A0 /* VolumeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VolumeController.swift; sourceTree = "<group>"; };
 		1F2713868130B80E0AF65E7A /* MediaKeyTap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaKeyTap.swift; sourceTree = "<group>"; };
+		28A9878F713A4F458EDA5D84 /* pumpkin.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = pumpkin.json; sourceTree = "<group>"; };
+		2AD23C640CE5F8D90B35A61A /* BatColonyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatColonyTests.swift; sourceTree = "<group>"; };
 		2DDF5FB7727CFC44FBC56BB2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		32DBD4C9458B1540DC5A244C /* HUDTransitionTrackerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HUDTransitionTrackerTests.swift; sourceTree = "<group>"; };
 		32EC313922E8C334D67A3B38 /* HUDPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HUDPanel.swift; sourceTree = "<group>"; };
 		37B52CD9019C31374D700767 /* bat-flying.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "bat-flying.json"; sourceTree = "<group>"; };
+		3AFFDAF9B228D447D1FB9B09 /* BatColony.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatColony.swift; sourceTree = "<group>"; };
 		3EAF78655A857CC49DC379B1 /* spider.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = spider.json; sourceTree = "<group>"; };
 		46DA6880EA421BF5088821A7 /* HUDReading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HUDReading.swift; sourceTree = "<group>"; };
 		4760CDB380076CE00731E946 /* SeasonalTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonalTheme.swift; sourceTree = "<group>"; };
@@ -65,6 +72,7 @@
 		5069BD9B3A812E7FC837EA0E /* ReBezel.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ReBezel.entitlements; sourceTree = "<group>"; };
 		527124EAFF475CC2382C60D7 /* HUDView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HUDView.swift; sourceTree = "<group>"; };
 		810671186AF7776E5337FAD1 /* LevelChangeObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelChangeObserver.swift; sourceTree = "<group>"; };
+		846795841616FCCAA63DF492 /* PumpkinGlyph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PumpkinGlyph.swift; sourceTree = "<group>"; };
 		9C69C95FFC1A6D1EFE206B68 /* ReBezel.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ReBezel.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1C883AB72ED78519F7B456B /* ReBezelTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ReBezelTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B1133DD43B2CC0479B2EBAD5 /* Preferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
@@ -153,6 +161,7 @@
 		69F867E51D73255E4780A10B /* ReBezelTests */ = {
 			isa = PBXGroup;
 			children = (
+				2AD23C640CE5F8D90B35A61A /* BatColonyTests.swift */,
 				0F9BC4D055BB362337CC6A75 /* HalloweenAssetsTests.swift */,
 				32DBD4C9458B1540DC5A244C /* HUDTransitionTrackerTests.swift */,
 				F30207189575DE83BF253E16 /* SeasonalThemeTests.swift */,
@@ -163,8 +172,10 @@
 		70E33986389A82328B1FAB6F /* Halloween */ = {
 			isa = PBXGroup;
 			children = (
+				3AFFDAF9B228D447D1FB9B09 /* BatColony.swift */,
 				EA7D17E1D6226B692DCF400F /* HalloweenAssets.swift */,
 				CECEF8FA17168DFD3CFA62FC /* HalloweenScene.swift */,
+				846795841616FCCAA63DF492 /* PumpkinGlyph.swift */,
 				BD88E67A0DB2F0EAC10844C3 /* Animations */,
 			);
 			path = Halloween;
@@ -231,6 +242,7 @@
 			isa = PBXGroup;
 			children = (
 				37B52CD9019C31374D700767 /* bat-flying.json */,
+				28A9878F713A4F458EDA5D84 /* pumpkin.json */,
 				3EAF78655A857CC49DC379B1 /* spider.json */,
 			);
 			path = Animations;
@@ -328,6 +340,7 @@
 				9DFB194BED7618EF3CB4FA0E /* AppIcon.icon in Resources */,
 				37774FCE93D4ED7D229F2CDB /* Assets.xcassets in Resources */,
 				943045D31DF7D16802321555 /* bat-flying.json in Resources */,
+				2ADC3E724B4909F95B73045D /* pumpkin.json in Resources */,
 				8417CCA257E884657CE3BF4B /* spider.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -339,6 +352,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C16CF3D75C50D5BBD56C3CA8 /* BatColonyTests.swift in Sources */,
 				885B4080D59A03EFE2F818EC /* HUDTransitionTrackerTests.swift in Sources */,
 				F332FFBBCA93EB7CB7ECA37A /* HalloweenAssetsTests.swift in Sources */,
 				4BC0FE56CAB265BF187362B1 /* SeasonalThemeTests.swift in Sources */,
@@ -351,6 +365,7 @@
 			files = (
 				FE2B261582DF7419AB053381 /* AppDelegate.swift in Sources */,
 				FE5B3AE8ACDBD25E7E95D535 /* AppUpdater.swift in Sources */,
+				1F3A50B6B0EA497B05DCB2C8 /* BatColony.swift in Sources */,
 				7C027A5D7917D1DE3E87911E /* BezelDebugMenu.swift in Sources */,
 				658721771DB74801BA46F504 /* BrightnessController.swift in Sources */,
 				922D8F8A11B397A18363004D /* HUDPanel.swift in Sources */,
@@ -365,6 +380,7 @@
 				116F92CA4FE14A37C54E468F /* OnboardingWindowController.swift in Sources */,
 				6B4ABDFF2292E059833443D0 /* Preferences.swift in Sources */,
 				8D8980409AD95FCB9B748391 /* PreferencesWindowController.swift in Sources */,
+				7C4AE834020394D1B3F3CA33 /* PumpkinGlyph.swift in Sources */,
 				5DDEF70AD89150E6D3BFC82C /* SeasonalScene.swift in Sources */,
 				79A88D8FB87C696FB2242A2C /* SeasonalTheme.swift in Sources */,
 				27F359EBAE14F1FD683C32CD /* VolumeController.swift in Sources */,

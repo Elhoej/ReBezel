@@ -40,9 +40,8 @@ fires twice. Keys, the Touch Bar and the Preferences preview all go through the 
 AppDelegate ──HUDReading──▶ HUDWindowController ──(reading, transition)──▶ SeasonalScene (one per panel)
                                │ derives the transition                    ├─ glyph override (pumpkin / speaker + wisps)
                                │ larger panel while a season is active      ├─ GhostLayer       (clipped above the bezel)
-                               └─ pauses the scene once faded out           ├─ BatRoost         (below the bezel)
-                                                                            ├─ BatSwarm         (in front, whole panel)
-                                                                            └─ SpiderWebLayer   (in front, over the glyph)
+                               └─ pauses the scene once faded out           ├─ SpiderWebLayer   (in front, over the glyph)
+                                                                            └─ BatColony        (in front, whole panel)
 ```
 
 While a season is active the panel's transparent margin grows from 40 to 240 points
@@ -53,9 +52,13 @@ Back to front:
 1. **Ghost**, in a clip view whose bottom edge is the bezel's top edge, so it rises from behind
    the bezel and never sits under (and gets lensed by) the glass.
 2. **Bezel.** `HUDView.glyphOverride` replaces the SF Symbol with the scene's own view.
-3. **Roost**: up to 10 bats hanging from the bezel's bottom edge, at staggered heights.
-4. **Swarm**: free-flying bats over the whole panel, faded out before the panel edge.
-5. **Spider and web**, over the glyph.
+3. **Spider and web**, over the glyph.
+4. **Bats** (`BatColony`) over the whole panel: up to 10 hanging from the bezel's bottom edge at
+   staggered heights, and the ones in flight, faded out before the panel edge. Roost and swarm
+   are one class because bats move between them (taking off, landing).
+
+The stages are layer-hosting views, so the scene owns their layer trees and can animate them
+with Core Animation directly.
 
 ### Brightness
 
@@ -71,8 +74,18 @@ Back to front:
   switch to the hanging animation.
 
 Bats are pooled `LottieAnimationLayer`s playing one flapping loop, each moved along its own
-random curved path by Core Animation with a random speed, size, start frame and left/right
-flip. A Lottie file can't spawn or steer copies of itself.
+random curved path by Core Animation with a random length, speed, size and start frame. A
+Lottie file can't spawn or steer copies of itself. Each sits in a carrier `CALayer` anchored at
+the bat's feet, so hanging bats hang and sway from them. Bats are tinted very dark purple with a
+faint light rim so they show on dark wallpapers.
+
+`LottieAnimationLayer`, unlike `LottieAnimationView`, doesn't scale its drawing to its bounds: it
+draws at the animation's natural size, y-down, centred on its own top-left corner. `Bat` in
+`BatColony.swift` compensates (anchor at the top-left, a scale transform, flipped geometry);
+use the same setup for any other bare Lottie layer.
+
+Until a hanging-bat animation exists, a hanging bat is the flying bat upside down, frozen on
+the frame with its wings raised.
 
 ### Volume
 
@@ -109,7 +122,7 @@ synchronously, which a key press needs).
 
 | # | File | Source | Needs |
 |---|---|---|---|
-| 1 | `pumpkin.json` | custom or LottieFiles | **Scrubbable**: every frame works as a still. At 0 only faint eyes glow. |
+| 1 | `pumpkin.json` | custom or LottieFiles; **a stand-in for now**, built from simple shapes | **Scrubbable**: every frame works as a still. At 0 only faint eyes glow. 140×140, to fill the glyph slot. |
 | 2 | `bat-flying.json` | [LottieFiles](https://lottiefiles.com/free-animation/bat-halloween-XkSYPjzHs7) | Flapping in place, seamless loop |
 | 3 | `bat-hanging.json` | LottieFiles or custom | Upside-down idle sway |
 | 4 | `wisps.json` | custom | Progress 0→1 = 0→3 wisps, lined up with SF `speaker` at 96 pt light |
@@ -124,10 +137,9 @@ attribution required).
 
 - **Bat** (1024×1024, 60 fps, 49 frames ≈ 0.8 s): one black bat. The wings flap by morphing a
   single path, and the whole bat bobs 20 units up and down. It **flaps in place**, so it works
-  as the swarm sprite. Two things to fix or work around: the bat sits off-center in its canvas
-  (it needs re-framing, or an offset when placed), and the path's last keyframe differs from its
-  first, so check the loop seam by eye. It is solid black, which disappears on dark
-  wallpapers; tint it at runtime with a color value provider.
+  as the swarm sprite. It is centred, front-facing and about two thirds of the canvas wide, so
+  it needs no re-framing. It is solid black, which disappears on dark wallpapers, so it is
+  tinted at runtime.
 - **Spider** (1024×1024, 30 fps, 180 frames = 6 s): drops in on a rope from above the canvas
   with a bounce (frames 0–37, the rope drawn by a trim path), then swings (rotation until
   frame 146). Mute plays it forward; unmute plays 37→0 to climb back up. The rope starts above
@@ -135,7 +147,7 @@ attribution required).
 
 ## Phases
 
-Status: phases 0 and 1 are done (October 23).
+Status: phases 0, 1 and 2 are done (October 23). Phase 2 uses the stand-in pumpkin.
 
 The update has to be out before October 28 so Sparkle (one check a day) can deliver it by the
 start of the window. Ship 1.2.0 on October 26 or 27 at the latest. The custom assets are the
