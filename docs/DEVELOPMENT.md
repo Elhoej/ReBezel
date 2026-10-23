@@ -42,6 +42,23 @@ This runs when Show for Touch Bar controls is on. Its default is on when
 `com.apple.controlstrip` is running, which it only does on Macs with a Touch Bar. Changes ReBezel
 makes from a key come back through the observer too and show the same level again.
 
+### Seasonal bezels
+
+For a few days of the year the bezel gets a theme with Lottie animations around it (so far
+Halloween, October 28 to November 3; see [HALLOWEEN.md](HALLOWEEN.md)). Callers give the HUD an
+`HUDReading` (where a level is now), and `HUDTransitionTracker` works out what changed from the
+previous reading of the same kind: volume up or down, mute, unmute, brightness up or down. The
+Touch Bar observer's echo of a key change is the same level again, so it counts as no change.
+While a theme is active the panel's transparent margin grows from 40 to 240 points to give the
+animations room. Show seasonal bezels in Preferences turns themes off.
+
+Two launch arguments help when working on a theme:
+
+- `--season halloween` forces a theme whatever the date and the preference (`--season none`
+  turns themes off).
+- `--debug-bezel` adds a Debug Bezel submenu to the status menu that shows the bezel for
+  made-up levels, so the animations can be tried without changing the real volume or brightness.
+
 ## Requirements
 
 - macOS 26 or later
@@ -65,6 +82,12 @@ Or from the command line:
 xcodebuild -project ReBezel.xcodeproj -scheme ReBezel -configuration Debug \
   -derivedDataPath build/DerivedData build
 open build/DerivedData/Build/Products/Debug/ReBezel.app
+```
+
+Run the tests (Swift Testing, hosted in the app, which skips its usual startup under tests):
+
+```sh
+xcodebuild -project ReBezel.xcodeproj -scheme ReBezel -derivedDataPath build/DerivedData test
 ```
 
 If `xcodebuild` complains about the Command Line Tools, point it at Xcode:

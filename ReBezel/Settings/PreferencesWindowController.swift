@@ -17,6 +17,8 @@ final class PreferencesWindowController: NSWindowController {
     private let allScreensCheckbox = NSButton(checkboxWithTitle: "Show on all screens", target: nil, action: nil)
     private let touchBarCheckbox = NSButton(checkboxWithTitle: "Show for Touch Bar controls", target: nil, action: nil)
     private let touchBarNote = NSTextField(wrappingLabelWithString: "Also shows when volume or brightness is changed elsewhere, such as in Control Center. The system banner still appears for Touch Bar changes.")
+    private let seasonalCheckbox = NSButton(checkboxWithTitle: "Show seasonal bezels", target: nil, action: nil)
+    private let seasonalNote = NSTextField(wrappingLabelWithString: "A themed bezel for a few days of the year, such as Halloween from October 28 to November 3.")
     private let launchAtLoginCheckbox = NSButton(checkboxWithTitle: "Launch at login", target: nil, action: nil)
     private let automaticUpdatesCheckbox = NSButton(checkboxWithTitle: "Automatically check for updates", target: nil, action: nil)
     private let hideIconButton = NSButton(title: "Hide Menu Bar Icon…", target: nil, action: nil)
@@ -79,6 +81,9 @@ final class PreferencesWindowController: NSWindowController {
         touchBarCheckbox.target = self
         touchBarCheckbox.action = #selector(touchBarChanged)
 
+        seasonalCheckbox.target = self
+        seasonalCheckbox.action = #selector(seasonalChanged)
+
         launchAtLoginCheckbox.target = self
         launchAtLoginCheckbox.action = #selector(launchAtLoginChanged)
 
@@ -96,12 +101,18 @@ final class PreferencesWindowController: NSWindowController {
         touchBarNote.textColor = .secondaryLabelColor
         touchBarNote.preferredMaxLayoutWidth = 280
 
+        seasonalNote.font = .systemFont(ofSize: NSFont.smallSystemFontSize)
+        seasonalNote.textColor = .secondaryLabelColor
+        seasonalNote.preferredMaxLayoutWidth = 280
+
         let grid = NSGridView(views: [
             [label("Position:"), positionPopUp],
             [label("Style:"), stylePopUp],
             [NSGridCell.emptyContentView, allScreensCheckbox],
             [NSGridCell.emptyContentView, touchBarCheckbox],
             [NSGridCell.emptyContentView, touchBarNote],
+            [NSGridCell.emptyContentView, seasonalCheckbox],
+            [NSGridCell.emptyContentView, seasonalNote],
             [label("Startup:"), launchAtLoginCheckbox],
             [label("Updates:"), automaticUpdatesCheckbox],
             [label("Menu bar:"), hideIconButton],
@@ -114,9 +125,10 @@ final class PreferencesWindowController: NSWindowController {
         grid.rowAlignment = .firstBaseline
         // Extra air between the bezel settings and the app settings.
         grid.row(at: 4).topPadding = -6
-        grid.row(at: 5).topPadding = 12
-        grid.row(at: 7).topPadding = 4
-        grid.row(at: 8).topPadding = -6
+        grid.row(at: 6).topPadding = -6
+        grid.row(at: 7).topPadding = 12
+        grid.row(at: 9).topPadding = 4
+        grid.row(at: 10).topPadding = -6
 
         let container = NSView()
         container.addSubview(grid)
@@ -140,6 +152,7 @@ final class PreferencesWindowController: NSWindowController {
         stylePopUp.selectItem(at: HUDStyle.allCases.firstIndex(of: Preferences.hudStyle) ?? 0)
         allScreensCheckbox.state = Preferences.showOnAllScreens ? .on : .off
         touchBarCheckbox.state = Preferences.showForTouchBar ? .on : .off
+        seasonalCheckbox.state = Preferences.showSeasonalThemes ? .on : .off
         launchAtLoginCheckbox.state = LaunchAtLogin.isEnabled ? .on : .off
         automaticUpdatesCheckbox.state = updater.automaticallyChecksForUpdates ? .on : .off
 
@@ -186,6 +199,11 @@ final class PreferencesWindowController: NSWindowController {
     @objc private func touchBarChanged() {
         Preferences.showForTouchBar = touchBarCheckbox.state == .on
         onTouchBarSettingChanged?()
+    }
+
+    @objc private func seasonalChanged() {
+        Preferences.showSeasonalThemes = seasonalCheckbox.state == .on
+        onHUDSettingChanged?()
     }
 
     @objc private func launchAtLoginChanged() {

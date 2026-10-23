@@ -22,6 +22,18 @@ final class HUDView: NSView {
     var symbolName: String = "speaker.wave.3" { didSet { updateImage() } }
     var content: Content = .level(0) { didSet { updateContent() } }
 
+    /// Shown in place of the symbol, in the same spot, e.g. a seasonal theme's
+    /// animated glyph.
+    var glyphOverride: NSView? {
+        didSet {
+            guard glyphOverride !== oldValue else { return }
+            oldValue?.removeFromSuperview()
+            if let glyphOverride { addSubview(glyphOverride) }
+            imageView.isHidden = glyphOverride != nil
+            needsLayout = true
+        }
+    }
+
     // Geometry, in points, for a 200x200 bezel.
     private let symbolPointSize: CGFloat = 96
     private let symbolCenterY: CGFloat = 112
@@ -80,6 +92,7 @@ final class HUDView: NSView {
             width: side,
             height: side
         )
+        glyphOverride?.frame = imageView.frame
         let captionHeight = captionLabel.fittingSize.height
         captionLabel.frame = NSRect(
             x: trackInset / 2,

@@ -39,6 +39,7 @@ enum Preferences {
     private static let hideMenuBarIconKey = "hideMenuBarIcon"
     private static let didCompleteOnboardingKey = "didCompleteOnboarding"
     private static let showForTouchBarKey = "showForTouchBar"
+    private static let showSeasonalThemesKey = "showSeasonalThemes"
 
     /// The Control Strip draws the Touch Bar's system buttons, so it only
     /// runs on a Mac that has one.
@@ -84,6 +85,13 @@ enum Preferences {
                 ?? !NSRunningApplication.runningApplications(withBundleIdentifier: controlStripBundleIdentifier).isEmpty
         }
         set { UserDefaults.standard.set(newValue, forKey: showForTouchBarKey) }
+    }
+
+    /// Show a themed bezel in season, such as around Halloween. On until the
+    /// user turns it off.
+    static var showSeasonalThemes: Bool {
+        get { UserDefaults.standard.object(forKey: showSeasonalThemesKey) as? Bool ?? true }
+        set { UserDefaults.standard.set(newValue, forKey: showSeasonalThemesKey) }
     }
 
     static var hudStyle: HUDStyle {
