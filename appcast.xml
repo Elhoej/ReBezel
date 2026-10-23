@@ -6,6 +6,21 @@
         <language>en</language>
         <!-- Scripts/release.sh inserts new items below this line, newest first. -->
         <item>
+            <title>Version 1.1.1</title>
+            <pubDate>Fri, 23 Oct 2026 08:37:39 +0000</pubDate>
+            <sparkle:version>3</sparkle:version>
+            <sparkle:shortVersionString>1.1.1</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>26.0</sparkle:minimumSystemVersion>
+            <description sparkle:format="markdown"><![CDATA[
+## What's new
+
+- On a Mac with a Touch Bar, the bezel now shows when you change volume or brightness with the Touch Bar's buttons and sliders. Until now it only appeared for the volume and brightness keys, which those Macs don't have. The Touch Bar changes the level without a key press, so ReBezel can't hide the macOS banner for these changes, and you'll see both.
+- A new setting in Preferences, "Show for Touch Bar controls", turns this on or off. It starts out on if your Mac has a Touch Bar. While it's on, volume and brightness changes made elsewhere, such as in Control Center, show the bezel too.
+- Auto-brightness and the dimming before the display sleeps don't bring up the bezel.
+]]></description>
+            <enclosure url="https://github.com/Elhoej/ReBezel/releases/download/v1.1.1/ReBezel-1.1.1.zip" type="application/octet-stream" sparkle:edSignature="hLLACeupgAG4SUD3fgLEbv/DXVcaJVLo/TI60/tYcUH6vo1VGlYOIIJ8SLJ+oeFSETp1kcd8aqNt9jHuRGsuAw==" length="3698004"/>
+        </item>
+        <item>
             <title>Version 1.1.0</title>
             <pubDate>Mon, 19 Oct 2026 14:33:06 +0000</pubDate>
             <sparkle:version>2</sparkle:version>
