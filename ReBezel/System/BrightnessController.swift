@@ -11,10 +11,16 @@ final class BrightnessController: Sendable {
     private typealias GetBrightness = @convention(c) (CGDirectDisplayID, UnsafeMutablePointer<Float>) -> Int32
     private typealias SetBrightness = @convention(c) (CGDirectDisplayID, Float) -> Int32
     private typealias CanChange = @convention(c) (CGDirectDisplayID) -> Bool
+    // Arguments read from ControlStrip's call sites; the callback gets the
+    // observer back and a `["value": NSNumber]` user info, on a background queue.
+    private typealias RegisterForChanges = @convention(c) (CGDirectDisplayID, UnsafeRawPointer, CFNotificationCallback) -> Int32
+    private typealias UnregisterForChanges = @convention(c) (CGDirectDisplayID, UnsafeRawPointer) -> Int32
 
     private let getBrightness: GetBrightness?
     private let setBrightness: SetBrightness?
     private let canChangeBrightness: CanChange?
+    private let registerForChanges: RegisterForChanges?
+    private let unregisterForChanges: UnregisterForChanges?
 
     init() {
         let path = "/System/Library/PrivateFrameworks/DisplayServices.framework/DisplayServices"
@@ -23,11 +29,15 @@ final class BrightnessController: Sendable {
             getBrightness = nil
             setBrightness = nil
             canChangeBrightness = nil
+            registerForChanges = nil
+            unregisterForChanges = nil
             return
         }
         getBrightness = dlsym(handle, "DisplayServicesGetBrightness").map { unsafeBitCast($0, to: GetBrightness.self) }
         setBrightness = dlsym(handle, "DisplayServicesSetBrightness").map { unsafeBitCast($0, to: SetBrightness.self) }
         canChangeBrightness = dlsym(handle, "DisplayServicesCanChangeBrightness").map { unsafeBitCast($0, to: CanChange.self) }
+        registerForChanges = dlsym(handle, "DisplayServicesRegisterForBrightnessChangeNotifications").map { unsafeBitCast($0, to: RegisterForChanges.self) }
+        unregisterForChanges = dlsym(handle, "DisplayServicesUnregisterForBrightnessChangeNotifications").map { unsafeBitCast($0, to: UnregisterForChanges.self) }
         if getBrightness == nil || setBrightness == nil {
             Self.logger.error("DisplayServices symbols missing")
         }
@@ -106,6 +116,26 @@ final class BrightnessController: Sendable {
         let status = set(display, min(max(newValue, 0), 1))
         if status != 0 {
             Self.logger.error("DisplayServicesSetBrightness failed (\(status))")
+        }
+    }
+
+    /// Calls `callback` with `observer` whenever the brightness of `display`
+    /// changes, whoever changes it: the keys, the Touch Bar, System Settings
+    /// or auto-brightness. Returns false if the notification is unavailable.
+    func registerForChanges(of display: CGDirectDisplayID, observer: UnsafeRawPointer, callback: CFNotificationCallback) -> Bool {
+        guard let register = registerForChanges else { return false }
+        let status = register(display, observer, callback)
+        if status != 0 {
+            Self.logger.error("DisplayServicesRegisterForBrightnessChangeNotifications failed (\(status))")
+        }
+        return status == 0
+    }
+
+    func unregisterForChanges(of display: CGDirectDisplayID, observer: UnsafeRawPointer) {
+        guard let unregister = unregisterForChanges else { return }
+        let status = unregister(display, observer)
+        if status != 0 {
+            Self.logger.error("DisplayServicesUnregisterForBrightnessChangeNotifications failed (\(status))")
         }
     }
 }

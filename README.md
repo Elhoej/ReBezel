@@ -41,6 +41,12 @@ a brightness key to change that display's brightness. The bezel shows up on that
 Third-party monitors controlled over DDC aren't supported, and the keyboard backlight keys are
 left to macOS.
 
+On a Mac with a Touch Bar, the bezel also shows when you change volume or brightness with the
+Touch Bar's buttons and sliders. The Touch Bar changes them without a key press, so ReBezel
+can't hide the system banner for those, and you'll see both. This is on by default when ReBezel
+finds a Touch Bar, and you can turn it off in Preferences (Show for Touch Bar controls). With it
+on, volume changes made elsewhere, such as in Control Center, show the bezel too.
+
 ## It stays out of your way
 
 ReBezel lives in the menu bar and has no Dock icon. It can start at login, and you can hide

@@ -1,4 +1,4 @@
-import Foundation
+import Cocoa
 
 /// Where the bezel sits on the active screen.
 enum HUDPosition: String, CaseIterable, Sendable {
@@ -38,6 +38,11 @@ enum Preferences {
     private static let styleKey = "hudStyle"
     private static let hideMenuBarIconKey = "hideMenuBarIcon"
     private static let didCompleteOnboardingKey = "didCompleteOnboarding"
+    private static let showForTouchBarKey = "showForTouchBar"
+
+    /// The Control Strip draws the Touch Bar's system buttons, so it only
+    /// runs on a Mac that has one.
+    nonisolated static let controlStripBundleIdentifier = "com.apple.controlstrip"
 
     static var hudPosition: HUDPosition {
         get {
@@ -67,6 +72,18 @@ enum Preferences {
     static var didCompleteOnboarding: Bool {
         get { UserDefaults.standard.bool(forKey: didCompleteOnboardingKey) }
         set { UserDefaults.standard.set(newValue, forKey: didCompleteOnboardingKey) }
+    }
+
+    /// Show the bezel for volume and brightness changes made without the keys,
+    /// which is how the Touch Bar makes them. Until the user picks a side it
+    /// follows whether this Mac has a Touch Bar. That is checked on every read,
+    /// since at login ReBezel can start before the Control Strip does.
+    static var showForTouchBar: Bool {
+        get {
+            UserDefaults.standard.object(forKey: showForTouchBarKey) as? Bool
+                ?? !NSRunningApplication.runningApplications(withBundleIdentifier: controlStripBundleIdentifier).isEmpty
+        }
+        set { UserDefaults.standard.set(newValue, forKey: showForTouchBarKey) }
     }
 
     static var hudStyle: HUDStyle {

@@ -7,12 +7,16 @@ import Cocoa
 final class PreferencesWindowController: NSWindowController {
     /// Called after a setting that affects the bezel changes, so the owner can preview it.
     var onHUDSettingChanged: (() -> Void)?
+    /// Called after the Touch Bar setting changes, so the owner can start or stop watching.
+    var onTouchBarSettingChanged: (() -> Void)?
     /// Called once the user has confirmed hiding the menu bar icon.
     var onHideMenuBarIcon: (() -> Void)?
 
     private let positionPopUp = NSPopUpButton(frame: .zero, pullsDown: false)
     private let stylePopUp = NSPopUpButton(frame: .zero, pullsDown: false)
     private let allScreensCheckbox = NSButton(checkboxWithTitle: "Show on all screens", target: nil, action: nil)
+    private let touchBarCheckbox = NSButton(checkboxWithTitle: "Show for Touch Bar controls", target: nil, action: nil)
+    private let touchBarNote = NSTextField(wrappingLabelWithString: "Also shows when volume or brightness is changed elsewhere, such as in Control Center. The system banner still appears for Touch Bar changes.")
     private let launchAtLoginCheckbox = NSButton(checkboxWithTitle: "Launch at login", target: nil, action: nil)
     private let automaticUpdatesCheckbox = NSButton(checkboxWithTitle: "Automatically check for updates", target: nil, action: nil)
     private let hideIconButton = NSButton(title: "Hide Menu Bar Icon…", target: nil, action: nil)
@@ -72,6 +76,9 @@ final class PreferencesWindowController: NSWindowController {
         allScreensCheckbox.target = self
         allScreensCheckbox.action = #selector(allScreensChanged)
 
+        touchBarCheckbox.target = self
+        touchBarCheckbox.action = #selector(touchBarChanged)
+
         launchAtLoginCheckbox.target = self
         launchAtLoginCheckbox.action = #selector(launchAtLoginChanged)
 
@@ -85,10 +92,16 @@ final class PreferencesWindowController: NSWindowController {
         hideIconNote.textColor = .secondaryLabelColor
         hideIconNote.preferredMaxLayoutWidth = 280
 
+        touchBarNote.font = .systemFont(ofSize: NSFont.smallSystemFontSize)
+        touchBarNote.textColor = .secondaryLabelColor
+        touchBarNote.preferredMaxLayoutWidth = 280
+
         let grid = NSGridView(views: [
             [label("Position:"), positionPopUp],
             [label("Style:"), stylePopUp],
             [NSGridCell.emptyContentView, allScreensCheckbox],
+            [NSGridCell.emptyContentView, touchBarCheckbox],
+            [NSGridCell.emptyContentView, touchBarNote],
             [label("Startup:"), launchAtLoginCheckbox],
             [label("Updates:"), automaticUpdatesCheckbox],
             [label("Menu bar:"), hideIconButton],
@@ -100,9 +113,10 @@ final class PreferencesWindowController: NSWindowController {
         grid.column(at: 1).xPlacement = .leading
         grid.rowAlignment = .firstBaseline
         // Extra air between the bezel settings and the app settings.
-        grid.row(at: 3).topPadding = 12
-        grid.row(at: 5).topPadding = 4
-        grid.row(at: 6).topPadding = -6
+        grid.row(at: 4).topPadding = -6
+        grid.row(at: 5).topPadding = 12
+        grid.row(at: 7).topPadding = 4
+        grid.row(at: 8).topPadding = -6
 
         let container = NSView()
         container.addSubview(grid)
@@ -125,6 +139,7 @@ final class PreferencesWindowController: NSWindowController {
         positionPopUp.selectItem(at: HUDPosition.allCases.firstIndex(of: Preferences.hudPosition) ?? 0)
         stylePopUp.selectItem(at: HUDStyle.allCases.firstIndex(of: Preferences.hudStyle) ?? 0)
         allScreensCheckbox.state = Preferences.showOnAllScreens ? .on : .off
+        touchBarCheckbox.state = Preferences.showForTouchBar ? .on : .off
         launchAtLoginCheckbox.state = LaunchAtLogin.isEnabled ? .on : .off
         automaticUpdatesCheckbox.state = updater.automaticallyChecksForUpdates ? .on : .off
 
@@ -166,6 +181,11 @@ final class PreferencesWindowController: NSWindowController {
     @objc private func allScreensChanged() {
         Preferences.showOnAllScreens = allScreensCheckbox.state == .on
         onHUDSettingChanged?()
+    }
+
+    @objc private func touchBarChanged() {
+        Preferences.showForTouchBar = touchBarCheckbox.state == .on
+        onTouchBarSettingChanged?()
     }
 
     @objc private func launchAtLoginChanged() {

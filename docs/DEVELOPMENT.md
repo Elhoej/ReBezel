@@ -21,6 +21,27 @@ supported external display connected the key is passed to the system.
 
 Keyboard backlight keys are passed through to the system untouched.
 
+### Touch Bar
+
+A Mac with a Touch Bar has no volume or brightness keys. The Control Strip
+(`/System/Library/CoreServices/ControlStrip.app`) sets the levels itself, through CoreAudio and
+`DisplayServicesSetBrightnessWithType(display, value, 1)`, and asks `SystemBanner` for the
+banner directly, so the event tap never sees a key and the banner can't be suppressed.
+`LevelChangeObserver` watches the levels instead: CoreAudio property listeners on the default
+output device for volume and mute, and `DisplayServicesRegisterForBrightnessChangeNotifications`
+for the primary display.
+
+Auto-brightness notifies about every 10 ms in steps of ~0.00015, and the system's type 2 sets
+in steps under ~0.0025. A type 1 set (the Control Strip, the keys) arrives as one notification.
+So a brightness change shows the bezel when it moves at least 0.004 in one notification, or at
+least 0.001 within a second of such a change (a slow slider drag). Changes are ignored while the
+displays sleep, for 3 seconds after they wake, and after 30 seconds without any input (dimming
+before display sleep).
+
+This runs when Show for Touch Bar controls is on. Its default is on when
+`com.apple.controlstrip` is running, which it only does on Macs with a Touch Bar. Changes ReBezel
+makes from a key come back through the observer too and show the same level again.
+
 ## Requirements
 
 - macOS 26 or later

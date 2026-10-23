@@ -7,12 +7,16 @@ import os
 struct VolumeController {
     private static let logger = Logger(subsystem: "com.simonelhoej.ReBezel", category: "Volume")
 
-    static func defaultOutputDevice() -> AudioDeviceID? {
-        var address = AudioObjectPropertyAddress(
+    static func defaultOutputDeviceAddress() -> AudioObjectPropertyAddress {
+        AudioObjectPropertyAddress(
             mSelector: kAudioHardwarePropertyDefaultOutputDevice,
             mScope: kAudioObjectPropertyScopeGlobal,
             mElement: kAudioObjectPropertyElementMain
         )
+    }
+
+    static func defaultOutputDevice() -> AudioDeviceID? {
+        var address = defaultOutputDeviceAddress()
         var device = AudioDeviceID(0)
         var size = UInt32(MemoryLayout<AudioDeviceID>.size)
         let status = AudioObjectGetPropertyData(
@@ -25,7 +29,7 @@ struct VolumeController {
         return device
     }
 
-    private static func volumeAddress() -> AudioObjectPropertyAddress {
+    static func volumeAddress() -> AudioObjectPropertyAddress {
         AudioObjectPropertyAddress(
             mSelector: kAudioHardwareServiceDeviceProperty_VirtualMainVolume,
             mScope: kAudioDevicePropertyScopeOutput,
@@ -33,7 +37,7 @@ struct VolumeController {
         )
     }
 
-    private static func muteAddress() -> AudioObjectPropertyAddress {
+    static func muteAddress() -> AudioObjectPropertyAddress {
         AudioObjectPropertyAddress(
             mSelector: kAudioDevicePropertyMute,
             mScope: kAudioDevicePropertyScopeOutput,

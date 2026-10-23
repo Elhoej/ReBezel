@@ -19,6 +19,7 @@
 		9DFB194BED7618EF3CB4FA0E /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = C59218388A80B688D2C6860A /* AppIcon.icon */; };
 		B83312C9ED5EACE14BA4DC4E /* HUDView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 527124EAFF475CC2382C60D7 /* HUDView.swift */; };
 		C0357FED7AB63734773928BF /* LaunchAtLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 169B7D7E060C2B828564A47A /* LaunchAtLogin.swift */; };
+		EC93699F042C8005BAD39CA9 /* LevelChangeObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810671186AF7776E5337FAD1 /* LevelChangeObserver.swift */; };
 		F0AF720EC7237FE38FCB37A1 /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = CA8F2D2FB87DB84E7AD08FB8 /* Sparkle */; };
 		F6359EFE629A4967B1FECD69 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82A104F85EE944130274764 /* main.swift */; };
 		FE2B261582DF7419AB053381 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAF38B3F0CD57C93A65E142E /* AppDelegate.swift */; };
@@ -34,6 +35,7 @@
 		32EC313922E8C334D67A3B38 /* HUDPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HUDPanel.swift; sourceTree = "<group>"; };
 		5069BD9B3A812E7FC837EA0E /* ReBezel.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ReBezel.entitlements; sourceTree = "<group>"; };
 		527124EAFF475CC2382C60D7 /* HUDView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HUDView.swift; sourceTree = "<group>"; };
+		810671186AF7776E5337FAD1 /* LevelChangeObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelChangeObserver.swift; sourceTree = "<group>"; };
 		9C69C95FFC1A6D1EFE206B68 /* ReBezel.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ReBezel.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B1133DD43B2CC0479B2EBAD5 /* Preferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
 		B574D6B043C97372847F866C /* BrightnessController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrightnessController.swift; sourceTree = "<group>"; };
@@ -123,6 +125,7 @@
 			isa = PBXGroup;
 			children = (
 				B574D6B043C97372847F866C /* BrightnessController.swift */,
+				810671186AF7776E5337FAD1 /* LevelChangeObserver.swift */,
 				1E7D5E45893818938CD394A0 /* VolumeController.swift */,
 			);
 			path = System;
@@ -238,6 +241,7 @@
 				B83312C9ED5EACE14BA4DC4E /* HUDView.swift in Sources */,
 				074ACFA43AD533FFBC249977 /* HUDWindowController.swift in Sources */,
 				C0357FED7AB63734773928BF /* LaunchAtLogin.swift in Sources */,
+				EC93699F042C8005BAD39CA9 /* LevelChangeObserver.swift in Sources */,
 				10172624F2C1B53ED6DCF67E /* MediaKeyTap.swift in Sources */,
 				116F92CA4FE14A37C54E468F /* OnboardingWindowController.swift in Sources */,
 				6B4ABDFF2292E059833443D0 /* Preferences.swift in Sources */,

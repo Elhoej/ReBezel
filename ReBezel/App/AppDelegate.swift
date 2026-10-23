@@ -10,6 +10,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var permissionPollTask: Task<Void, Never>?
     private let hud = HUDWindowController()
     private let brightness = BrightnessController()
+    private lazy var levelObserver = makeLevelObserver()
     private let updater = AppUpdater()
     private lazy var preferences = makePreferencesWindowController()
     private var onboarding: OnboardingWindowController?
@@ -40,6 +41,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             showOnboarding()
         }
         applyMenuBarIconVisibility()
+        applyTouchBarSetting()
+        watchForControlStrip()
     }
 
     /// Launching ReBezel while it is already running lands here. Use it as the
@@ -54,6 +57,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationWillTerminate(_ notification: Notification) {
         mediaKeyTap?.stop()
+        levelObserver.stop()
     }
 
     // MARK: - Status item
@@ -79,6 +83,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         controller.onHUDSettingChanged = { [weak self] in
             // Preview the new look/spot right away.
             self?.hud.show(symbol: "sun.max", level: 0.5)
+        }
+        controller.onTouchBarSettingChanged = { [weak self] in
+            self?.applyTouchBarSetting()
         }
         controller.onHideMenuBarIcon = { [weak self] in
             Preferences.hideMenuBarIcon = true
@@ -144,6 +151,45 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     @objc private func openAccessibilitySettings() {
         if let url = URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility") {
             NSWorkspace.shared.open(url)
+        }
+    }
+
+    // MARK: - Touch Bar
+
+    /// The Touch Bar changes the levels without a key event, so its changes
+    /// are picked up by watching the levels themselves. ReBezel's own key
+    /// changes come back through here too; showing the same level again just
+    /// keeps the bezel up.
+    private func makeLevelObserver() -> LevelChangeObserver {
+        let observer = LevelChangeObserver(brightness: brightness)
+        observer.onVolumeChange = { [weak self] volume, muted in
+            Self.logger.info("🟢 TOUCH BAR BEZEL ▸ volume \(Int((volume * 100).rounded()))%\(muted ? " (muted)" : "", privacy: .public)")
+            self?.showVolume(volume, muted: muted)
+        }
+        observer.onBrightnessChange = { [weak self] value in
+            Self.logger.info("🟢 TOUCH BAR BEZEL ▸ brightness \(Int((value * 100).rounded()))%")
+            self?.hud.show(symbol: "sun.max", level: value)
+        }
+        return observer
+    }
+
+    private func applyTouchBarSetting() {
+        if Preferences.showForTouchBar {
+            levelObserver.start()
+        } else {
+            levelObserver.stop()
+        }
+    }
+
+    /// At login ReBezel can start before the Control Strip, which makes the
+    /// Touch Bar setting's default read as off. Check again once it is up.
+    private func watchForControlStrip() {
+        NSWorkspace.shared.notificationCenter.addObserver(
+            forName: NSWorkspace.didLaunchApplicationNotification, object: nil, queue: .main
+        ) { [weak self] notification in
+            let app = notification.userInfo?[NSWorkspace.applicationUserInfoKey] as? NSRunningApplication
+            guard app?.bundleIdentifier == Preferences.controlStripBundleIdentifier else { return }
+            MainActor.assumeIsolated { self?.applyTouchBarSetting() }
         }
     }
 
@@ -270,6 +316,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         }
 
         Self.logger.info("Volume \(event.key.rawValue): \(value) muted=\(muted) step=\(self.step(for: event)) modifiers=\(event.modifiers.rawValue)")
+        showVolume(value, muted: muted)
+    }
+
+    private func showVolume(_ value: Float, muted: Bool) {
         // Muted, or turned all the way down: slashed speaker over an empty bar.
         let silent = muted || value <= 0
         hud.show(symbol: silent ? "speaker.slash" : "speaker.wave.3", level: silent ? 0 : value)
