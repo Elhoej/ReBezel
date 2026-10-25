@@ -4,75 +4,61 @@
 
 # ReBezel
 
-The big centered volume and brightness bezel is back on macOS 26, redrawn in Liquid Glass.
+The volume and brightness bezel from before macOS Tahoe, redrawn in Liquid Glass to match macOS 26.
 
-macOS Tahoe moved the volume and brightness indicator into a small banner in the top-right
-corner of the screen. ReBezel puts it back where your eyes already go: a square in the middle
-of the screen with a large glyph and the 16-segment level bar Mac users know, now made of the
-same glass as the rest of macOS 26.
+Tahoe replaced the old bezel with a small banner in the top-right corner. ReBezel brings back the
+square in the middle of the screen, with the large glyph and 16-segment level bar, made of the same
+glass as the rest of the system.
 
-**[Download ReBezel](https://github.com/Elhoej/ReBezel/releases/latest)** (requires macOS 26 or later)
+**[Download ReBezel](https://github.com/Elhoej/ReBezel/releases/latest)** (macOS 26 or later)
 
-## Pick your glass
+## Styles
 
 <p align="center">
   <img src="docs/images/styles.png" alt="The three bezel styles side by side: Classic, Liquid Glass Regular and Liquid Glass Clear" width="720">
 </p>
 
-From left to right: Classic, Liquid Glass (Regular) and Liquid Glass (Clear). Regular is
-frosted and follows the Liquid Glass tint you choose in System Settings. Clear is the
-transparent, lensed glass Control Center uses for its own modules. Classic is the dark bezel
-from macOS 11 to 15, for anyone who misses it exactly as it was.
+From left: Classic, Liquid Glass (Regular) and Liquid Glass (Clear). Regular is frosted and follows
+the Liquid Glass tint set in System Settings. Clear is the transparent glass Control Center uses.
+Classic is the dark bezel from macOS 11 to 15.
 
-The bezel sits near the bottom of the screen by default, and you can move it to the center or
-the top. It appears on the screen your pointer is on, or on every screen at once if you prefer.
+The bezel sits near the bottom of the screen by default and can move to the center or top. It shows
+on the screen with the pointer, or on every screen.
 
-## Your keys work the way they always did
+## Keys and shortcuts
 
-Volume up, volume down, mute and the brightness keys behave as before. The only difference is
-the bezel you see.
+The volume, mute and brightness keys work as before, and the old modifiers are back:
 
-The old shortcuts are back too. Hold Shift+Option while pressing a volume or brightness key to
-move in quarter steps, and the bezel fills each segment a quarter at a time. Hold Option to
-jump straight to the Sound or Displays settings.
+- Shift+Option with a volume or brightness key changes the level in quarter steps.
+- Option with a volume or brightness key opens Sound or Displays settings.
+- Control with a brightness key changes the brightness of a connected Apple Studio Display, Pro
+  Display XDR or LG UltraFine.
 
-With an Apple Studio Display, Pro Display XDR or LG UltraFine connected, hold Control and press
-a brightness key to change that display's brightness. The bezel shows up on that display.
-Third-party monitors controlled over DDC aren't supported, and the keyboard backlight keys are
-left to macOS.
+DDC monitors and the keyboard backlight keys aren't supported.
 
-On a Mac with a Touch Bar, the bezel also shows when you change volume or brightness with the
-Touch Bar's buttons and sliders. The Touch Bar changes them without a key press, so ReBezel
-can't hide the system banner for those, and you'll see both. This is on by default when ReBezel
-finds a Touch Bar, and you can turn it off in Preferences (Show for Touch Bar controls). With it
-on, volume changes made elsewhere, such as in Control Center, show the bezel too.
+On a Mac with a Touch Bar, the bezel also shows for the Touch Bar's volume and brightness controls,
+and for volume changes made elsewhere, such as in Control Center. macOS still shows its banner for
+those, so you'll see both. Turn this off in Preferences under Show for Touch Bar controls.
 
-## It stays out of your way
+ReBezel runs from the menu bar with no Dock icon. It can start at login, and you can hide the menu bar
+icon; open the app again from Finder or Spotlight to get it back.
 
-ReBezel lives in the menu bar and has no Dock icon. It can start at login, and you can hide
-the menu bar icon entirely. To get the icon back, open ReBezel again from Finder, Spotlight or
-Launchpad.
-
-
-## Getting started
+## Setup
 
 1. [Download the DMG](https://github.com/Elhoej/ReBezel/releases/latest) and drag ReBezel into
    Applications.
-2. Open it. A short walkthrough lets you try each style and position with a live preview.
-3. Grant Accessibility access when asked. As soon as macOS allows it, a bezel says "Voilá!"
-   and you're done.
+2. Open it. A short walkthrough previews each style and position.
+3. Grant Accessibility access when asked.
 
-ReBezel needs Accessibility access because Control Center draws the Tahoe banner itself and
-there's no setting to turn it off. ReBezel catches the volume and brightness keys before
-Control Center sees them, changes the volume or brightness itself, and shows its own bezel.
-Until the permission is granted, the menu bar icon shows a warning triangle.
-
-All settings are in Preferences (⌘, from the menu bar icon).
+Control Center draws the Tahoe banner and has no setting to turn it off. Accessibility access lets
+ReBezel catch the volume and brightness keys first, change the level itself and show its own bezel.
+Until you grant it, the menu bar icon shows a warning triangle. Settings are in Preferences (⌘, from
+the menu bar icon).
 
 ## Troubleshooting
 
-If you used a build older than 1.1.0, install 1.1.0 or later by hand from the DMG and grant
-Accessibility access again. Updates after that arrive inside the app and keep the permission.
+If you used a build older than 1.1.0, install the latest DMG by hand and grant Accessibility access
+again. Later updates install from inside the app and keep the permission.
 
 If ReBezel's entry in the Accessibility list gets stuck, reset it and grant access again:
 
@@ -82,5 +68,5 @@ tccutil reset Accessibility com.simonelhoej.ReBezel
 
 ## Building from source
 
-Build instructions, how the key interception works, and the release process are in
+Build instructions, how key interception works and the release process are in
 [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md).
