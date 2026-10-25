@@ -31,6 +31,7 @@
 		943045D31DF7D16802321555 /* bat-flying.json in Resources */ = {isa = PBXBuildFile; fileRef = 37B52CD9019C31374D700767 /* bat-flying.json */; };
 		9DFB194BED7618EF3CB4FA0E /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = C59218388A80B688D2C6860A /* AppIcon.icon */; };
 		9EC82BE9AA994AFFDA2D0F75 /* HUDReading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46DA6880EA421BF5088821A7 /* HUDReading.swift */; };
+		B0CE64370AFBFDC85E88908D /* HalloweenPalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A42027CB0B5E74BC801AA2 /* HalloweenPalette.swift */; };
 		B83312C9ED5EACE14BA4DC4E /* HUDView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 527124EAFF475CC2382C60D7 /* HUDView.swift */; };
 		C0357FED7AB63734773928BF /* LaunchAtLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 169B7D7E060C2B828564A47A /* LaunchAtLogin.swift */; };
 		C16CF3D75C50D5BBD56C3CA8 /* BatColonyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AD23C640CE5F8D90B35A61A /* BatColonyTests.swift */; };
@@ -53,6 +54,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		04A42027CB0B5E74BC801AA2 /* HalloweenPalette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HalloweenPalette.swift; sourceTree = "<group>"; };
 		0F9BC4D055BB362337CC6A75 /* HalloweenAssetsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HalloweenAssetsTests.swift; sourceTree = "<group>"; };
 		169B7D7E060C2B828564A47A /* LaunchAtLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchAtLogin.swift; sourceTree = "<group>"; };
 		1A37F2B9DC8425DF432CA5B9 /* PreferencesWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesWindowController.swift; sourceTree = "<group>"; };
@@ -174,6 +176,7 @@
 			children = (
 				3AFFDAF9B228D447D1FB9B09 /* BatColony.swift */,
 				EA7D17E1D6226B692DCF400F /* HalloweenAssets.swift */,
+				04A42027CB0B5E74BC801AA2 /* HalloweenPalette.swift */,
 				CECEF8FA17168DFD3CFA62FC /* HalloweenScene.swift */,
 				846795841616FCCAA63DF492 /* PumpkinGlyph.swift */,
 				BD88E67A0DB2F0EAC10844C3 /* Animations */,
@@ -373,6 +376,7 @@
 				B83312C9ED5EACE14BA4DC4E /* HUDView.swift in Sources */,
 				074ACFA43AD533FFBC249977 /* HUDWindowController.swift in Sources */,
 				5EAA7029E411D51CCB1373A7 /* HalloweenAssets.swift in Sources */,
+				B0CE64370AFBFDC85E88908D /* HalloweenPalette.swift in Sources */,
 				8225C0ACDA411E01EFFD90CE /* HalloweenScene.swift in Sources */,
 				C0357FED7AB63734773928BF /* LaunchAtLogin.swift in Sources */,
 				EC93699F042C8005BAD39CA9 /* LevelChangeObserver.swift in Sources */,

@@ -40,6 +40,7 @@ enum Preferences {
     private static let didCompleteOnboardingKey = "didCompleteOnboarding"
     private static let showForTouchBarKey = "showForTouchBar"
     private static let showSeasonalThemesKey = "showSeasonalThemes"
+    private static let halloweenLookKey = "halloweenLook"
 
     /// The Control Strip draws the Touch Bar's system buttons, so it only
     /// runs on a Mac that has one.
@@ -92,6 +93,15 @@ enum Preferences {
     static var showSeasonalThemes: Bool {
         get { UserDefaults.standard.object(forKey: showSeasonalThemesKey) as? Bool ?? true }
         set { UserDefaults.standard.set(newValue, forKey: showSeasonalThemesKey) }
+    }
+
+    /// Which look the Halloween bezel has.
+    static var halloweenLook: HalloweenLook {
+        get {
+            UserDefaults.standard.string(forKey: halloweenLookKey)
+                .flatMap(HalloweenLook.init(rawValue:)) ?? .harvestMoon
+        }
+        set { UserDefaults.standard.set(newValue.rawValue, forKey: halloweenLookKey) }
     }
 
     static var hudStyle: HUDStyle {

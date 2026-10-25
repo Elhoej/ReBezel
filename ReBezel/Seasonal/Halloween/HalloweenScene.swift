@@ -1,9 +1,9 @@
 import Cocoa
 import os
 
-/// The Halloween bezel: a jack-o'-lantern and bats for brightness, ghostly
-/// wisps and a rising ghost for volume, and a spider spinning a web on mute.
-/// See docs/HALLOWEEN.md.
+/// The Halloween bezel: bats for brightness, ghostly wisps and a rising ghost
+/// for volume, and a spider spinning a web on mute, all drawn in the look
+/// picked in Preferences (`HalloweenLook`). See docs/HALLOWEEN.md.
 ///
 /// Each part has its own stage view around the bezel, back to front: the
 /// ghost (clipped to the area above the bezel, so it rises from behind it and
@@ -17,6 +17,11 @@ final class HalloweenScene: SeasonalScene {
     private let ghostStage = HalloweenScene.makeStage()
     private let spiderStage = HalloweenScene.makeStage()
     private let batStage = HalloweenScene.makeStage()
+
+    /// Whether brightness shows the jack-o'-lantern or keeps the standard sun
+    /// glyph, drawn in the look's ink. Off for now: the pumpkin's own
+    /// colours don't fit either look.
+    private static let showsPumpkin = false
 
     private let pumpkin: PumpkinGlyph?
     private let bats: BatColony?
@@ -39,13 +44,17 @@ final class HalloweenScene: SeasonalScene {
         batStage.frame = container.bounds
         container.addSubview(batStage)
 
-        pumpkin = HalloweenAssets.pumpkin.map(PumpkinGlyph.init)
+        let palette = Preferences.halloweenLook.palette
+        palette.apply(to: hudView)
+        hudView.backdrop = HalloweenAssets.graveyard(in: palette.ink)
+
+        pumpkin = Self.showsPumpkin ? HalloweenAssets.pumpkin.map(PumpkinGlyph.init) : nil
         if let animation = HalloweenAssets.batFlying, let layer = batStage.layer {
-            bats = BatColony(stage: layer, bezel: bezel, animation: animation)
+            bats = BatColony(stage: layer, bezel: bezel, animation: animation, palette: palette)
         } else {
             bats = nil
         }
-        if pumpkin == nil || bats == nil {
+        if (Self.showsPumpkin && pumpkin == nil) || bats == nil {
             Self.logger.error("Halloween scene is missing animations; those parts are left out")
         }
     }

@@ -10,5 +10,6 @@ struct HalloweenAssetsTests {
         #expect(pumpkin.duration > 0)
         #expect(bat.duration > 0)
         #expect(spider.duration > 0)
+        #expect(HalloweenAssets.graveyard != nil)
     }
 }

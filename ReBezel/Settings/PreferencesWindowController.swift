@@ -19,6 +19,7 @@ final class PreferencesWindowController: NSWindowController {
     private let touchBarNote = NSTextField(wrappingLabelWithString: "Also shows when volume or brightness is changed elsewhere, such as in Control Center. The system banner still appears for Touch Bar changes.")
     private let seasonalCheckbox = NSButton(checkboxWithTitle: "Show seasonal bezels", target: nil, action: nil)
     private let seasonalNote = NSTextField(wrappingLabelWithString: "A themed bezel for a few days of the year, such as Halloween from October 28 to November 3.")
+    private let halloweenLookPopUp = NSPopUpButton(frame: .zero, pullsDown: false)
     private let launchAtLoginCheckbox = NSButton(checkboxWithTitle: "Launch at login", target: nil, action: nil)
     private let automaticUpdatesCheckbox = NSButton(checkboxWithTitle: "Automatically check for updates", target: nil, action: nil)
     private let hideIconButton = NSButton(title: "Hide Menu Bar Icon…", target: nil, action: nil)
@@ -84,6 +85,13 @@ final class PreferencesWindowController: NSWindowController {
         seasonalCheckbox.target = self
         seasonalCheckbox.action = #selector(seasonalChanged)
 
+        for look in HalloweenLook.allCases {
+            halloweenLookPopUp.addItem(withTitle: look.title)
+            halloweenLookPopUp.lastItem?.representedObject = look.rawValue
+        }
+        halloweenLookPopUp.target = self
+        halloweenLookPopUp.action = #selector(halloweenLookChanged)
+
         launchAtLoginCheckbox.target = self
         launchAtLoginCheckbox.action = #selector(launchAtLoginChanged)
 
@@ -113,6 +121,7 @@ final class PreferencesWindowController: NSWindowController {
             [NSGridCell.emptyContentView, touchBarNote],
             [NSGridCell.emptyContentView, seasonalCheckbox],
             [NSGridCell.emptyContentView, seasonalNote],
+            [label("Halloween:"), halloweenLookPopUp],
             [label("Startup:"), launchAtLoginCheckbox],
             [label("Updates:"), automaticUpdatesCheckbox],
             [label("Menu bar:"), hideIconButton],
@@ -126,9 +135,9 @@ final class PreferencesWindowController: NSWindowController {
         // Extra air between the bezel settings and the app settings.
         grid.row(at: 4).topPadding = -6
         grid.row(at: 6).topPadding = -6
-        grid.row(at: 7).topPadding = 12
-        grid.row(at: 9).topPadding = 4
-        grid.row(at: 10).topPadding = -6
+        grid.row(at: 8).topPadding = 12
+        grid.row(at: 10).topPadding = 4
+        grid.row(at: 11).topPadding = -6
 
         let container = NSView()
         container.addSubview(grid)
@@ -153,6 +162,8 @@ final class PreferencesWindowController: NSWindowController {
         allScreensCheckbox.state = Preferences.showOnAllScreens ? .on : .off
         touchBarCheckbox.state = Preferences.showForTouchBar ? .on : .off
         seasonalCheckbox.state = Preferences.showSeasonalThemes ? .on : .off
+        halloweenLookPopUp.selectItem(at: HalloweenLook.allCases.firstIndex(of: Preferences.halloweenLook) ?? 0)
+        halloweenLookPopUp.isEnabled = Preferences.showSeasonalThemes
         launchAtLoginCheckbox.state = LaunchAtLogin.isEnabled ? .on : .off
         automaticUpdatesCheckbox.state = updater.automaticallyChecksForUpdates ? .on : .off
 
@@ -203,6 +214,14 @@ final class PreferencesWindowController: NSWindowController {
 
     @objc private func seasonalChanged() {
         Preferences.showSeasonalThemes = seasonalCheckbox.state == .on
+        halloweenLookPopUp.isEnabled = Preferences.showSeasonalThemes
+        onHUDSettingChanged?()
+    }
+
+    @objc private func halloweenLookChanged() {
+        guard let raw = halloweenLookPopUp.selectedItem?.representedObject as? String,
+              let look = HalloweenLook(rawValue: raw) else { return }
+        Preferences.halloweenLook = look
         onHUDSettingChanged?()
     }
 

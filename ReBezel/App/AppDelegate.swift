@@ -14,8 +14,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private let updater = AppUpdater()
     private lazy var preferences = makePreferencesWindowController()
     private var onboarding: OnboardingWindowController?
-    private lazy var debugMenu = BezelDebugMenu { [weak self] reading in
-        self?.hud.show(reading)
+    private lazy var debugMenu = BezelDebugMenu { [weak self] reading, press in
+        self?.hud.show(reading, press: press)
     }
 
     /// One of the 16 segments on the bezel.
@@ -340,7 +340,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         // cursor, so the bezel goes on that display. Plain keys keep showing it
         // on the active screen.
         let bezelDisplay = event.modifiers.contains(.control) ? display : nil
-        hud.show(.brightness(level: value), on: bezelDisplay)
+        hud.show(.brightness(level: value), on: bezelDisplay,
+                 press: event.key == .brightnessUp ? .brightnessUp : .brightnessDown)
     }
 
     // MARK: - Previews

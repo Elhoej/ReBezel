@@ -5,11 +5,11 @@ struct BatColonyTests {
     @Test(arguments: [
         (Float(1), 0),
         (0.9375, 1),
-        (0.9, 1),
-        (0.5, 5),
-        (0.4375, 6),
-        (0.0625, 10),
-        (0, 10),
+        (0.9, 2),
+        (0.5, 8),
+        (0.4375, 9),
+        (0.0625, 15),
+        (0, 16),
     ])
     func roostCountGrowsAsTheScreenDarkens(brightness: Float, bats: Int) {
         #expect(BatColony.roostCount(for: brightness) == bats)

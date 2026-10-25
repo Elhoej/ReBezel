@@ -23,6 +23,17 @@ struct HUDTransitionTrackerTests {
         #expect(tracker.record(.brightness(level: 0.5625)) == .none)
     }
 
+    @Test func keyPressAtTheEndStillCounts() {
+        // Brightness up at 100% leaves the level at 1, but the key was pressed.
+        var tracker = HUDTransitionTracker()
+        _ = tracker.record(.brightness(level: 1))
+        #expect(tracker.record(.brightness(level: 1), press: .brightnessUp) == .brightnessUp)
+        // Its Touch Bar echo, with no key, is still no change.
+        #expect(tracker.record(.brightness(level: 1)) == .none)
+        _ = tracker.record(.brightness(level: 0))
+        #expect(tracker.record(.brightness(level: 0), press: .brightnessDown) == .brightnessDown)
+    }
+
     @Test func levelReadBackSlightlyOffIsNoChange() {
         var tracker = HUDTransitionTracker()
         _ = tracker.record(.brightness(level: 0.5))
@@ -59,7 +70,7 @@ struct HUDTransitionTrackerTests {
         #expect(tracker.record(.volume(level: 0, muted: true)) == .none)
     }
 
-    @Test func nothingHappensAtTheEnds() {
+    @Test func sameLevelAtTheEndsWithoutAKeyIsNoChange() {
         var tracker = HUDTransitionTracker()
         _ = tracker.record(.brightness(level: 1))
         #expect(tracker.record(.brightness(level: 1)) == .none)

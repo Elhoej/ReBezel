@@ -15,6 +15,15 @@ final class HUDWindowController {
     private struct Look: Equatable {
         let style: HUDStyle
         let theme: SeasonalTheme?
+        /// Only while the Halloween theme is shown.
+        let halloweenLook: HalloweenLook?
+
+        @MainActor
+        static var current: Look {
+            let theme = SeasonalTheme.current
+            return Look(style: Preferences.hudStyle, theme: theme,
+                        halloweenLook: theme == .halloween ? Preferences.halloweenLook : nil)
+        }
     }
 
     private var panels: [ScreenPanel] = []
@@ -43,9 +52,10 @@ final class HUDWindowController {
     /// Shows `reading` on `display` if given and otherwise on the active
     /// screen. For brightness, `display` is also the display the level is
     /// for; `nil` is the built-in one. A caption stays up a bit longer than a
-    /// key press bezel so the text can be read.
-    func show(_ reading: HUDReading, on display: CGDirectDisplayID? = nil) {
-        let transition = tracker.record(reading, display: display)
+    /// key press bezel so the text can be read. `press` is the change the key
+    /// asked for, if a key caused it; see `HUDTransitionTracker.record`.
+    func show(_ reading: HUDReading, on display: CGDirectDisplayID? = nil, press: HUDTransition? = nil) {
+        let transition = tracker.record(reading, display: display, press: press)
         let duration: Duration
         if case .caption = reading {
             duration = captionDuration
@@ -56,7 +66,7 @@ final class HUDWindowController {
     }
 
     private func present(_ reading: HUDReading, transition: HUDTransition, duration: Duration, display: CGDirectDisplayID?) {
-        let look = Look(style: Preferences.hudStyle, theme: SeasonalTheme.current)
+        let look = Look.current
         if builtLook != look {
             for entry in panels {
                 entry.panel.orderOut(nil)
@@ -159,7 +169,7 @@ final class HUDWindowController {
 
     private func ensurePanelCount(_ count: Int) {
         while panels.count < count {
-            panels.append(makePanel(look: builtLook ?? Look(style: Preferences.hudStyle, theme: nil)))
+            panels.append(makePanel(look: builtLook ?? Look(style: Preferences.hudStyle, theme: nil, halloweenLook: nil)))
         }
     }
 
@@ -219,6 +229,7 @@ final class HUDWindowController {
 
         content.foreground = NSColor(white: 1, alpha: 0.82)
         content.trackColor = NSColor(white: 0, alpha: 0.3)
+        content.cornerRadius = 18
         effect.addSubview(content)
         return effect
     }
@@ -234,6 +245,7 @@ final class HUDWindowController {
 
         content.foreground = NSColor(white: 1, alpha: 0.95)
         content.trackColor = NSColor(white: 1, alpha: 0.22)
+        content.cornerRadius = 28
         glass.contentView = content
         return glass
     }

@@ -50,7 +50,10 @@ struct HUDTransitionTracker: Sendable {
 
     /// Records `reading` and returns how it differs from the previous one of
     /// its kind. `display` is the display whose brightness the reading is for.
-    mutating func record(_ reading: HUDReading, display: CGDirectDisplayID? = nil) -> HUDTransition {
+    /// `press` is the change a key asked for: a press at the end of the range
+    /// (brightness up at 100%) leaves the level where it was, but still counts
+    /// as that change rather than as `.none`.
+    mutating func record(_ reading: HUDReading, display: CGDirectDisplayID? = nil, press: HUDTransition? = nil) -> HUDTransition {
         switch reading {
         case .volume(let level, _):
             let silent = reading.isSilent
@@ -63,7 +66,11 @@ struct HUDTransitionTracker: Sendable {
         case .brightness(let level):
             defer { brightness[display] = level }
             guard let previous = brightness[display] else { return .none }
-            return Self.direction(from: previous, to: level, up: .brightnessUp, down: .brightnessDown)
+            let transition = Self.direction(from: previous, to: level, up: .brightnessUp, down: .brightnessDown)
+            if transition == .none, let press, press == .brightnessUp || press == .brightnessDown {
+                return press
+            }
+            return transition
 
         case .caption:
             return .none

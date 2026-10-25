@@ -1,17 +1,18 @@
 import Cocoa
 import Lottie
 
-/// The bats that come with the jack-o'-lantern. Up to `roostSize` hang under
-/// the bezel, more the darker the screen. As it brightens, bats leave the
-/// roost and a few more burst out of the bezel; as it dims, bats fly in and
-/// hang in the next free spot.
+/// The bats that come with the jack-o'-lantern. Up to `roostSize` hang inside
+/// the bezel from its top edge, more the darker the screen. As it brightens,
+/// random bats leave the roost and a few more burst out of the bezel; as it
+/// dims, bats fly in and hang in a random free spot.
 ///
 /// Every bat plays the same flapping loop. A Lottie file can't spawn or steer
 /// copies of itself, so the flights are Core Animation paths with a random
 /// curve, length, speed and size each time.
 @MainActor
 final class BatColony {
-    nonisolated static let roostSize = 10
+    /// One spot per brightness key step (1/16), so every press down adds a bat.
+    nonisolated static let roostSize = 16
     /// Most bats in the air at once (not counting ones flying in to hang), so
     /// holding the key doesn't flood the screen.
     static let maxFlying = 24
@@ -23,12 +24,18 @@ final class BatColony {
         return max(0, Int((darkness * Float(roostSize) - 0.0001).rounded(.up)))
     }
 
-    /// Spots fill from the middle outwards, so a few bats look deliberate.
-    private static let fillOrder = [4, 5, 3, 6, 2, 7, 1, 8, 0, 9]
-    /// How far below the bezel each spot hangs, so neighbours don't line up.
-    private static let drops: [CGFloat] = [3, 8, 1, 6, 2, 7, 0, 5, 9, 4]
-    /// A hanging bat is smaller than a flying one, so ten fit under the bezel.
+    /// How far below the bezel's top edge each spot hangs. Neighbours alternate
+    /// high and low, so the closely packed bats overlap in two loose rows.
+    private static let drops: [CGFloat] = [4, 12, 1, 10, 5, 14, 2, 11, 0, 13, 3, 9, 6, 12, 1, 10]
+    /// Room left at each end of the top edge, so the end bats stay clear of
+    /// the bezel's rounded corners.
+    private static let cornerInset: CGFloat = 24
+    /// A hanging bat is smaller than a flying one, so the roost fits along the top edge.
     private static let hangingScale: CGFloat = 0.72
+    /// Multiplies every bat's size, on top of the flight and roost scales.
+    /// Only the debug menu changes it, to try other sizes. Bats pick it up
+    /// when they are next taken from the pool or hung.
+    static var sizeMultiplier: CGFloat = 1
 
     private enum Spot {
         case empty
@@ -46,16 +53,19 @@ final class BatColony {
     private let stage: CALayer
     private let bezel: NSRect
     private let animation: LottieAnimation
+    private let palette: HalloweenPalette
     private let screenScale: CGFloat
     private var spots = [Spot](repeating: .empty, count: BatColony.roostSize)
     private var flying: [ObjectIdentifier: Bat] = [:]
     private var spare: [Bat] = []
 
     /// `stage` covers the whole panel; `bezel` is the bezel's frame in it.
-    init(stage: CALayer, bezel: NSRect, animation: LottieAnimation) {
+    /// The bats are drawn in `palette`'s ink and rim.
+    init(stage: CALayer, bezel: NSRect, animation: LottieAnimation, palette: HalloweenPalette) {
         self.stage = stage
         self.bezel = bezel
         self.animation = animation
+        self.palette = palette
         screenScale = NSScreen.screens.map(\.backingScaleFactor).max() ?? 2
     }
 
@@ -69,14 +79,13 @@ final class BatColony {
         }
         resumeSwaying()
 
-        let occupied = Self.fillOrder.filter { spots[$0].bat != nil }
+        let occupied = occupiedSpots
         if target < occupied.count {
-            for index in occupied.suffix(occupied.count - target).reversed() {
+            for index in occupied.shuffled().prefix(occupied.count - target) {
                 release(spot: index)
             }
         } else if target > occupied.count {
-            let free = Self.fillOrder.filter { spots[$0].bat == nil }
-            for index in free.prefix(target - occupied.count) {
+            for index in freeSpots.shuffled().prefix(target - occupied.count) {
                 arrive(at: index)
             }
         }
@@ -105,27 +114,40 @@ final class BatColony {
 
     // MARK: - Roost
 
-    /// Puts exactly `count` bats in the roost, without animating.
+    /// Spots with a bat hanging there or flying in to hang.
+    private var occupiedSpots: [Int] { spots.indices.filter { spots[$0].bat != nil } }
+    private var freeSpots: [Int] { spots.indices.filter { spots[$0].bat == nil } }
+
+    /// Puts exactly `count` bats in the roost without starting any flights.
+    /// Bats stay in their spots; any extra ones are taken from random spots
+    /// and missing ones hung in random free spots. Flights already under way
+    /// carry on: a bat flying in that is still wanted lands, and the ones
+    /// flying off finish on their own.
     private func settle(count: Int) {
-        for bat in flying.values {
-            recycle(bat)
-        }
-        flying.removeAll()
-        for (rank, index) in Self.fillOrder.enumerated() {
-            if rank < count {
-                let bat = spots[index].bat ?? makeBat()
-                hang(bat, at: index)
-                sway(bat)
-            } else if let bat = spots[index].bat {
+        let occupied = occupiedSpots
+        for index in occupied.shuffled().prefix(max(occupied.count - count, 0)) {
+            if let bat = spots[index].bat {
                 recycle(bat)
-                spots[index] = .empty
             }
+            spots[index] = .empty
+        }
+        for case .hanging(let bat) in spots {
+            bat.size = Self.sizeMultiplier
+            if bat.carrier.animation(forKey: "sway") == nil {
+                sway(bat)
+            }
+        }
+        for index in freeSpots.shuffled().prefix(max(count - occupied.count, 0)) {
+            let bat = makeBat()
+            hang(bat, at: index)
+            sway(bat)
         }
     }
 
     private func hangPoint(_ index: Int) -> CGPoint {
-        let spacing = bezel.width / CGFloat(Self.roostSize)
-        return CGPoint(x: bezel.minX + spacing * (CGFloat(index) + 0.5), y: bezel.minY - 1 - Self.drops[index])
+        let spacing = (bezel.width - Self.cornerInset * 2) / CGFloat(Self.roostSize)
+        return CGPoint(x: bezel.minX + Self.cornerInset + spacing * (CGFloat(index) + 0.5),
+                       y: bezel.maxY - 1 - Self.drops[index])
     }
 
     /// Hangs `bat` upside down from its feet at the spot, wings folded.
@@ -138,6 +160,7 @@ final class BatColony {
             bat.carrier.opacity = 1
         }
         bat.fold()
+        bat.size = Self.sizeMultiplier
         if bat.carrier.superlayer == nil {
             stage.addSublayer(bat.carrier)
         }
@@ -314,7 +337,9 @@ final class BatColony {
     // MARK: - Pool
 
     private func makeBat() -> Bat {
-        spare.popLast() ?? Bat(animation: animation, screenScale: screenScale)
+        let bat = spare.popLast() ?? Bat(animation: animation, palette: palette, screenScale: screenScale)
+        bat.size = Self.sizeMultiplier
+        return bat
     }
 
     private func recycle(_ bat: Bat) {
@@ -340,10 +365,7 @@ final class BatColony {
 private final class Bat {
     /// Side of the carrier, in points, at scale 1. The bat itself is about two
     /// thirds of that wide.
-    static let side: CGFloat = 56
-    /// Very dark purple rather than black, with a faint light rim from the
-    /// shadow, so bats still show up on a dark wallpaper.
-    static let color = LottieColor(r: 0.11, g: 0.07, b: 0.14, a: 1)
+    static let side: CGFloat = 102
 
     static func transform(scale: CGFloat, angle: CGFloat) -> CATransform3D {
         CATransform3DRotate(CATransform3DMakeScale(scale, scale, 1), angle, 0, 0, 1)
@@ -352,14 +374,29 @@ private final class Bat {
     let carrier = CALayer()
     /// Bumped by every new flight, so a finished flight can tell it was replaced.
     var flightID = 0
+    /// Scales the drawing about the feet, separately from the carrier's
+    /// transform, which the flights animate.
+    var size: CGFloat = 1 {
+        didSet {
+            guard size != oldValue else { return }
+            CATransaction.begin()
+            CATransaction.setDisableActions(true)
+            sizer.transform = CATransform3DMakeScale(size, size, 1)
+            CATransaction.commit()
+        }
+    }
+    private let sizer = CALayer()
     private let lottie: LottieAnimationLayer
 
-    init(animation: LottieAnimation, screenScale: CGFloat) {
+    /// The body is filled with the palette's ink and the shadow is its bat
+    /// rim, so bats still show up on a dark wallpaper.
+    init(animation: LottieAnimation, palette: HalloweenPalette, screenScale: CGFloat) {
         lottie = LottieAnimationLayer(animation: animation)
         lottie.loopMode = .loop
         lottie.backgroundBehavior = .continuePlaying
         lottie.screenScale = screenScale
-        lottie.setValueProvider(ColorValueProvider(Self.color), keypath: AnimationKeypath(keypath: "**.Color"))
+        // Only the body: the eyes keep their orange.
+        lottie.setValueProvider(ColorValueProvider(palette.inkLottie), keypath: AnimationKeypath(keypath: "Bat.Body.Fill 1.Color"))
 
         // LottieAnimationLayer draws at its animation's natural size, y-down,
         // centred on its own top-left corner. Anchoring that corner at the
@@ -375,11 +412,16 @@ private final class Bat {
         carrier.bounds = CGRect(x: 0, y: 0, width: side, height: side)
         // The feet: just below the body of the upright bat.
         carrier.anchorPoint = CGPoint(x: 0.5, y: 0.4)
-        carrier.shadowColor = NSColor.white.cgColor
-        carrier.shadowOpacity = 0.35
-        carrier.shadowRadius = 1.5
+        carrier.shadowColor = palette.batRim.withAlphaComponent(1).cgColor
+        carrier.shadowOpacity = Float(palette.batRim.alphaComponent)
+        carrier.shadowRadius = palette.batRimRadius
         carrier.shadowOffset = .zero
-        carrier.addSublayer(lottie)
+        // The same box as the carrier, anchored at the same feet.
+        sizer.bounds = carrier.bounds
+        sizer.anchorPoint = carrier.anchorPoint
+        sizer.position = CGPoint(x: side * carrier.anchorPoint.x, y: side * carrier.anchorPoint.y)
+        sizer.addSublayer(lottie)
+        carrier.addSublayer(sizer)
     }
 
     /// Flaps, starting at a random point in the loop and at a slightly

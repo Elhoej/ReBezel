@@ -1,9 +1,9 @@
 import Cocoa
 import Lottie
 
-/// The jack-o'-lantern that takes the sun's place. Its animation runs from
-/// unlit (progress 0) to fully lit (1) and follows the brightness: up plays it
-/// forward, down plays it backward.
+/// The jack-o'-lantern that takes the sun's place. Its animation runs from a
+/// friendly grin (progress 0) to a scary one (1) and follows the brightness: up
+/// plays it forward, down plays it backward.
 @MainActor
 final class PumpkinGlyph {
     /// How long a change takes whatever its size, so a quarter step is as
@@ -12,6 +12,8 @@ final class PumpkinGlyph {
 
     let view: LottieAnimationView
     private let duration: TimeInterval
+    /// Where the running change is heading.
+    private var heading: AnimationProgressTime?
 
     init(animation: LottieAnimation) {
         view = LottieAnimationView(animation: animation)
@@ -24,6 +26,8 @@ final class PumpkinGlyph {
     func show(level: Float, animated: Bool) {
         let target = AnimationProgressTime(min(max(level, 0), 1))
         guard animated else {
+            // Already on its way there: let it finish rather than jump.
+            if view.isAnimationPlaying, let heading, abs(heading - target) < 0.0001 { return }
             view.currentProgress = target
             return
         }
@@ -32,6 +36,7 @@ final class PumpkinGlyph {
         let span = abs(target - from)
         guard span > 0.0001 else { return }
         view.animationSpeed = span * duration / Self.changeDuration
+        heading = target
         view.play(fromProgress: from, toProgress: target, loopMode: .playOnce)
     }
 

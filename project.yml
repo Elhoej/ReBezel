@@ -58,6 +58,9 @@ targets:
     scheme:
       testTargets:
         - ReBezelTests
+      commandLineArguments:
+        "--season halloween": true
+        "--debug-bezel": true
   ReBezelTests:
     type: bundle.unit-test
     platform: macOS
