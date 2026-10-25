@@ -12,6 +12,8 @@ glass as the rest of the system.
 
 **[Download ReBezel](https://github.com/Elhoej/ReBezel/releases/latest)** (macOS 26 or later)
 
+<a href='https://ko-fi.com/W7W0NZDCC' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://storage.ko-fi.com/cdn/kofi6.png?v=6' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
+
 ## Styles
 
 <p align="center">
@@ -70,3 +72,5 @@ tccutil reset Accessibility com.simonelhoej.ReBezel
 
 Build instructions, how key interception works and the release process are in
 [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md).
+
+<a href='https://ko-fi.com/W7W0NZDCC' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://storage.ko-fi.com/cdn/kofi6.png?v=6' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
