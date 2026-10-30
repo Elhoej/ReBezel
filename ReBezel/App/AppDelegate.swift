@@ -11,8 +11,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private let hud = HUDWindowController()
     private let brightness = BrightnessController()
     private lazy var levelObserver = makeLevelObserver()
+    private lazy var headphonesObserver = makeHeadphonesObserver()
     private let updater = AppUpdater()
-    private lazy var preferences = makePreferencesWindowController()
+    private lazy var settings = makeSettingsWindowController()
     private var onboarding: OnboardingWindowController?
     private lazy var debugMenu = BezelDebugMenu { [weak self] reading, press in
         self?.hud.show(reading, press: press)
@@ -46,6 +47,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         applyMenuBarIconVisibility()
         applyTouchBarSetting()
         watchForControlStrip()
+        applyHeadphonesSetting()
     }
 
     /// Launching ReBezel while it is already running lands here. Use it as the
@@ -61,6 +63,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationWillTerminate(_ notification: Notification) {
         mediaKeyTap?.stop()
         levelObserver.stop()
+        headphonesObserver.stop()
     }
 
     // MARK: - Status item
@@ -70,7 +73,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         item.button?.image = NSImage(systemSymbolName: "square.bottomthird.inset.filled", accessibilityDescription: "ReBezel")
 
         let menu = NSMenu()
-        menu.addItem(withTitle: "Preferences…", action: #selector(showPreferences), keyEquivalent: ",")
+        menu.addItem(withTitle: "Settings…", action: #selector(showSettings), keyEquivalent: ",")
         menu.addItem(updater.makeMenuItem())
         menu.addItem(withTitle: "Open Accessibility Settings…", action: #selector(openAccessibilitySettings), keyEquivalent: "")
         if CommandLine.arguments.contains(BezelDebugMenu.launchArgument) {
@@ -83,16 +86,19 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         statusItem = item
     }
 
-    // MARK: - Preferences
+    // MARK: - Settings
 
-    private func makePreferencesWindowController() -> PreferencesWindowController {
-        let controller = PreferencesWindowController(updater: updater)
+    private func makeSettingsWindowController() -> SettingsWindowController {
+        let controller = SettingsWindowController(updater: updater)
         controller.onHUDSettingChanged = { [weak self] in
             // Preview the new look/spot right away.
             self?.previewBrightness()
         }
         controller.onTouchBarSettingChanged = { [weak self] in
             self?.applyTouchBarSetting()
+        }
+        controller.onHeadphonesSettingChanged = { [weak self] in
+            self?.applyHeadphonesSetting()
         }
         controller.onHideMenuBarIcon = { [weak self] in
             Preferences.hideMenuBarIcon = true
@@ -101,8 +107,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         return controller
     }
 
-    @objc private func showPreferences() {
-        preferences.show()
+    /// Waits for the status menu to close: activating the app while the
+    /// menu is still tracking can be ignored.
+    @objc private func showSettings() {
+        DispatchQueue.main.async { [weak self] in
+            self?.settings.show()
+        }
     }
 
     // MARK: - Onboarding
@@ -198,6 +208,29 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             guard app?.bundleIdentifier == Preferences.controlStripBundleIdentifier else { return }
             MainActor.assumeIsolated { self?.applyTouchBarSetting() }
         }
+    }
+
+    // MARK: - Headphones
+
+    /// macOS shows its own banner for this too; there is no event to swallow.
+    private func makeHeadphonesObserver() -> HeadphonesObserver {
+        let observer = HeadphonesObserver()
+        observer.onConnect = { [weak self] headphones in
+            self?.showHeadphones(headphones)
+        }
+        return observer
+    }
+
+    private func applyHeadphonesSetting() {
+        if Preferences.showForHeadphones {
+            headphonesObserver.start()
+        } else {
+            headphonesObserver.stop()
+        }
+    }
+
+    private func showHeadphones(_ headphones: Headphones) {
+        hud.show(.caption(symbol: headphones.symbolName, text: headphones.name))
     }
 
     // MARK: - Event tap

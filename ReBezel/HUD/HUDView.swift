@@ -2,7 +2,8 @@ import Cocoa
 
 /// Classic macOS bezel: a thin outline symbol in the upper part and, along
 /// the bottom, either a 16-segment level bar in a dark track or a short
-/// caption (used for the "Voilá!" confirmation during onboarding).
+/// caption (the "Voilá!" confirmation during onboarding, or the name of
+/// headphones that just connected).
 ///
 /// Each segment is split into quarters so the fine Shift+Option steps
 /// (1/64 of the range) are visible: the last segment fills up a quarter at a
@@ -83,7 +84,18 @@ final class HUDView: NSView {
     private var trackBottom: CGFloat {
         backdrop == nil ? defaultTrackBottom : max(defaultTrackBottom, backdropHeight + backdropGap)
     }
-    /// The caption is centred on the same line as the track.
+    private let captionFontSize: CGFloat = 19
+    /// A longer caption, like a pair of headphones' name, wraps onto this
+    /// many lines, then gets smaller down to `minimumCaptionFontSize`, and
+    /// only then is cut off.
+    private let captionMaximumLines = 2
+    private let minimumCaptionFontSize: CGFloat = 13
+    /// The least space between the caption and the glyph, and between the
+    /// glyph and the top edge when the glyph moves up to keep that space.
+    private let captionGlyphGap: CGFloat = 6
+    private let glyphTopMargin: CGFloat = 14
+    /// A one-line caption is centred on the same line as the track. A longer
+    /// one keeps its last line there and grows upward, toward the glyph.
     private var captionCenterY: CGFloat { trackBottom + trackHeight / 2 + 1 }
 
     /// Colour of the glyph, the filled segments and the caption.
@@ -112,7 +124,7 @@ final class HUDView: NSView {
 
     private let backdropView = BackdropView()
     private let imageView = NSImageView()
-    private let captionLabel = PlainLabel(labelWithString: "")
+    private let captionLabel = PlainLabel(wrappingLabelWithString: "")
 
     override init(frame: NSRect) {
         super.init(frame: frame)
@@ -128,9 +140,11 @@ final class HUDView: NSView {
 
         captionLabel.wantsLayer = true
         captionLabel.alignment = .center
-        captionLabel.font = .systemFont(ofSize: 19, weight: .medium)
+        captionLabel.font = captionFont(size: captionFontSize)
         captionLabel.textColor = foreground
-        captionLabel.lineBreakMode = .byTruncatingTail
+        captionLabel.isSelectable = false
+        captionLabel.maximumNumberOfLines = captionMaximumLines
+        captionLabel.cell?.truncatesLastVisibleLine = true
         captionLabel.isHidden = true
         addSubview(captionLabel)
 
@@ -144,40 +158,105 @@ final class HUDView: NSView {
 
     override func layout() {
         super.layout()
+        backdropView.frame = NSRect(x: 0, y: 0, width: bounds.width, height: backdropHeight)
+        captionLabel.preferredMaxLayoutWidth = bounds.width - trackInset
+        let captionHeight = captionLabel.fittingSize.height
+        let lineHeight = Self.singleLineHeight(of: captionLabel.font)
+        captionLabel.frame = NSRect(
+            x: trackInset / 2,
+            y: captionCenterY - lineHeight / 2,
+            width: bounds.width - trackInset,
+            height: captionHeight
+        )
+
+        // A two-line caption above a backdrop reaches the glyph; move the
+        // glyph up, as far as the top edge allows, to keep clear of it.
+        var glyphCenterY = symbolCenterY
+        if !captionLabel.isHidden, let glyph = imageView.image?.size {
+            let overlap = captionLabel.frame.maxY + captionGlyphGap - (symbolCenterY - glyph.height / 2)
+            let room = bounds.height - glyphTopMargin - (symbolCenterY + glyph.height / 2)
+            glyphCenterY += min(max(overlap, 0), max(room, 0))
+        }
         let side: CGFloat = 140
         imageView.frame = NSRect(
             x: (bounds.width - side) / 2,
-            y: symbolCenterY - side / 2,
+            y: glyphCenterY - side / 2,
             width: side,
             height: side
         )
         glyphOverride?.frame = imageView.frame
-        backdropView.frame = NSRect(x: 0, y: 0, width: bounds.width, height: backdropHeight)
-        let captionHeight = captionLabel.fittingSize.height
-        captionLabel.frame = NSRect(
-            x: trackInset / 2,
-            y: captionCenterY - captionHeight / 2,
-            width: bounds.width - trackInset,
-            height: captionHeight
-        )
     }
 
     private func updateImage() {
         let config = NSImage.SymbolConfiguration(pointSize: symbolPointSize, weight: .light)
         imageView.image = NSImage(systemSymbolName: symbolName, accessibilityDescription: nil)?
             .withSymbolConfiguration(config)
+        // Its height decides whether it has to move up for the caption.
+        needsLayout = true
     }
 
     private func updateContent() {
         switch content {
         case .level:
             captionLabel.isHidden = true
+            needsLayout = true
         case .caption(let text):
-            captionLabel.stringValue = text
+            let caption = captionLayout(for: text)
+            captionLabel.stringValue = caption.text
+            captionLabel.font = caption.font
             captionLabel.isHidden = false
             needsLayout = true
         }
         needsDisplay = true
+    }
+
+    private func captionFont(size: CGFloat) -> NSFont {
+        .systemFont(ofSize: size, weight: .medium)
+    }
+
+    /// `text` with its line breaks, in the largest font, down to the
+    /// minimum, that fits it in `captionMaximumLines` without breaking a
+    /// word. Text that doesn't fit even then is left for the label to wrap
+    /// and cut off.
+    private func captionLayout(for text: String) -> (text: String, font: NSFont) {
+        var size = captionFontSize
+        while true {
+            let font = captionFont(size: size)
+            if let lines = captionLines(for: text, font: font) {
+                return (lines.joined(separator: "\n"), font)
+            }
+            if size <= minimumCaptionFontSize { return (text, font) }
+            size -= 1
+        }
+    }
+
+    /// `text` on one line, or split between two words onto two lines as
+    /// evenly as possible; `nil` if neither fits. The label's own padding
+    /// takes a few points of the width.
+    private func captionLines(for text: String, font: NSFont) -> [String]? {
+        let width = bounds.width - trackInset - 6
+        func measure(_ string: String) -> CGFloat {
+            (string as NSString).size(withAttributes: [.font: font]).width
+        }
+        if measure(text) <= width { return [text] }
+
+        let words = text.split(separator: " ").map(String.init)
+        var best: (lines: [String], widest: CGFloat)?
+        for split in words.indices.dropFirst() {
+            let lines = [words[..<split].joined(separator: " "), words[split...].joined(separator: " ")]
+            let widest = lines.map(measure).max() ?? 0
+            if widest <= width, widest < best?.widest ?? .infinity {
+                best = (lines, widest)
+            }
+        }
+        return best?.lines
+    }
+
+    /// The height of a one-line label in `font`, padding included.
+    private static func singleLineHeight(of font: NSFont?) -> CGFloat {
+        let cell = NSTextFieldCell(textCell: "X")
+        cell.font = font
+        return cell.cellSize.height
     }
 
     override func draw(_ dirtyRect: NSRect) {

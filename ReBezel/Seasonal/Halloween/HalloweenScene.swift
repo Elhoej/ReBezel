@@ -2,7 +2,7 @@ import Cocoa
 import os
 
 /// The Halloween bezel: bats for brightness and volume, drawn in the look
-/// picked in Preferences (`HalloweenLook`). See docs/HALLOWEEN.md.
+/// picked in Settings (`HalloweenLook`). See docs/HALLOWEEN.md.
 ///
 /// Each part has its own stage view around the bezel, back to front: the
 /// ghost (clipped to the area above the bezel, so it rises from behind it and

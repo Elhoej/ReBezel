@@ -1,7 +1,7 @@
 import Cocoa
 import Lottie
 
-/// The two looks of the Halloween bezel, picked in Preferences. Both draw the
+/// The two looks of the Halloween bezel, picked in Settings. Both draw the
 /// whole scene (bats, graveyard, glyph, level bar) as silhouettes in one ink;
 /// they differ in what the silhouettes stand against.
 enum HalloweenLook: String, CaseIterable, Sendable {

@@ -1,14 +1,16 @@
 import Cocoa
 
-/// A single-pane Preferences window holding every user-facing option.
+/// A single-pane Settings window holding every user-facing option.
 /// The window is built in code (the app has no storyboard) and reads its
 /// initial state from `Preferences` / `LaunchAtLogin` / `AppUpdater` each time it is shown.
 @MainActor
-final class PreferencesWindowController: NSWindowController {
+final class SettingsWindowController: NSWindowController {
     /// Called after a setting that affects the bezel changes, so the owner can preview it.
     var onHUDSettingChanged: (() -> Void)?
     /// Called after the Touch Bar setting changes, so the owner can start or stop watching.
     var onTouchBarSettingChanged: (() -> Void)?
+    /// Called after the headphones setting changes, so the owner can start or stop watching.
+    var onHeadphonesSettingChanged: (() -> Void)?
     /// Called once the user has confirmed hiding the menu bar icon.
     var onHideMenuBarIcon: (() -> Void)?
 
@@ -17,6 +19,7 @@ final class PreferencesWindowController: NSWindowController {
     private let allScreensCheckbox = NSButton(checkboxWithTitle: "Show on all screens", target: nil, action: nil)
     private let touchBarCheckbox = NSButton(checkboxWithTitle: "Show for Touch Bar controls", target: nil, action: nil)
     private let touchBarNote = NSTextField(wrappingLabelWithString: "Also shows when volume or brightness is changed elsewhere, such as in Control Center. The system banner still appears for Touch Bar changes.")
+    private let headphonesCheckbox = NSButton(checkboxWithTitle: "Show when headphones connect", target: nil, action: nil)
     private let seasonalCheckbox = NSButton(checkboxWithTitle: "Show seasonal bezels", target: nil, action: nil)
     private let seasonalNote = NSTextField(wrappingLabelWithString: "A themed bezel for a few days of the year, such as Halloween from October 28 to November 3.")
     private let halloweenLookPopUp = NSPopUpButton(frame: .zero, pullsDown: false)
@@ -35,8 +38,10 @@ final class PreferencesWindowController: NSWindowController {
             backing: .buffered,
             defer: false
         )
-        window.title = "ReBezel Preferences"
+        window.title = "ReBezel Settings"
         window.isReleasedWhenClosed = false
+        // Opening it from another Space brings it there instead of switching back.
+        window.collectionBehavior.insert(.moveToActiveSpace)
         super.init(window: window)
 
         let content = makeContentView()
@@ -44,6 +49,7 @@ final class PreferencesWindowController: NSWindowController {
         content.layoutSubtreeIfNeeded()
         window.setContentSize(content.fittingSize)
         window.center()
+        // Named from when this was Preferences; kept so the saved position still applies.
         window.setFrameAutosaveName("PreferencesWindow")
     }
 
@@ -55,8 +61,7 @@ final class PreferencesWindowController: NSWindowController {
     /// Brings the window to the front, refreshing every control first.
     func show() {
         refresh()
-        NSApp.activate()
-        window?.makeKeyAndOrderFront(nil)
+        window?.bringToFront()
     }
 
     // MARK: - Layout
@@ -81,6 +86,9 @@ final class PreferencesWindowController: NSWindowController {
 
         touchBarCheckbox.target = self
         touchBarCheckbox.action = #selector(touchBarChanged)
+
+        headphonesCheckbox.target = self
+        headphonesCheckbox.action = #selector(headphonesChanged)
 
         seasonalCheckbox.target = self
         seasonalCheckbox.action = #selector(seasonalChanged)
@@ -119,6 +127,7 @@ final class PreferencesWindowController: NSWindowController {
             [NSGridCell.emptyContentView, allScreensCheckbox],
             [NSGridCell.emptyContentView, touchBarCheckbox],
             [NSGridCell.emptyContentView, touchBarNote],
+            [NSGridCell.emptyContentView, headphonesCheckbox],
             [NSGridCell.emptyContentView, seasonalCheckbox],
             [NSGridCell.emptyContentView, seasonalNote],
             [label("Halloween:"), halloweenLookPopUp],
@@ -134,10 +143,10 @@ final class PreferencesWindowController: NSWindowController {
         grid.rowAlignment = .firstBaseline
         // Extra air between the bezel settings and the app settings.
         grid.row(at: 4).topPadding = -6
-        grid.row(at: 6).topPadding = -6
-        grid.row(at: 8).topPadding = 12
-        grid.row(at: 10).topPadding = 4
-        grid.row(at: 11).topPadding = -6
+        grid.row(at: 7).topPadding = -6
+        grid.row(at: 9).topPadding = 12
+        grid.row(at: 11).topPadding = 4
+        grid.row(at: 12).topPadding = -6
 
         let container = NSView()
         container.addSubview(grid)
@@ -161,6 +170,7 @@ final class PreferencesWindowController: NSWindowController {
         stylePopUp.selectItem(at: HUDStyle.allCases.firstIndex(of: Preferences.hudStyle) ?? 0)
         allScreensCheckbox.state = Preferences.showOnAllScreens ? .on : .off
         touchBarCheckbox.state = Preferences.showForTouchBar ? .on : .off
+        headphonesCheckbox.state = Preferences.showForHeadphones ? .on : .off
         seasonalCheckbox.state = Preferences.showSeasonalThemes ? .on : .off
         halloweenLookPopUp.selectItem(at: HalloweenLook.allCases.firstIndex(of: Preferences.halloweenLook) ?? 0)
         halloweenLookPopUp.isEnabled = Preferences.showSeasonalThemes
@@ -210,6 +220,11 @@ final class PreferencesWindowController: NSWindowController {
     @objc private func touchBarChanged() {
         Preferences.showForTouchBar = touchBarCheckbox.state == .on
         onTouchBarSettingChanged?()
+    }
+
+    @objc private func headphonesChanged() {
+        Preferences.showForHeadphones = headphonesCheckbox.state == .on
+        onHeadphonesSettingChanged?()
     }
 
     @objc private func seasonalChanged() {

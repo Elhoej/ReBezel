@@ -73,8 +73,7 @@ final class OnboardingWindowController: NSWindowController, NSWindowDelegate {
 
     func show() {
         step = .style
-        NSApp.activate()
-        window?.makeKeyAndOrderFront(nil)
+        window?.bringToFront()
     }
 
     /// The owner saw the permission arrive; nothing left to do here.

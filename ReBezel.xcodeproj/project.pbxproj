@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		074ACFA43AD533FFBC249977 /* HUDWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2439F22543C412740E22419 /* HUDWindowController.swift */; };
+		0B848586E6390F41C49D942A /* HeadphonesObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADB6C5DD5A49D4CF396B8534 /* HeadphonesObserver.swift */; };
 		10172624F2C1B53ED6DCF67E /* MediaKeyTap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2713868130B80E0AF65E7A /* MediaKeyTap.swift */; };
 		116F92CA4FE14A37C54E468F /* OnboardingWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BCFEFDD7FFC8AB0236B3D9 /* OnboardingWindowController.swift */; };
 		1F3A50B6B0EA497B05DCB2C8 /* BatColony.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AFFDAF9B228D447D1FB9B09 /* BatColony.swift */; };
@@ -26,7 +27,6 @@
 		8225C0ACDA411E01EFFD90CE /* HalloweenScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = CECEF8FA17168DFD3CFA62FC /* HalloweenScene.swift */; };
 		8417CCA257E884657CE3BF4B /* spider.json in Resources */ = {isa = PBXBuildFile; fileRef = 3EAF78655A857CC49DC379B1 /* spider.json */; };
 		885B4080D59A03EFE2F818EC /* HUDTransitionTrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DBD4C9458B1540DC5A244C /* HUDTransitionTrackerTests.swift */; };
-		8D8980409AD95FCB9B748391 /* PreferencesWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A37F2B9DC8425DF432CA5B9 /* PreferencesWindowController.swift */; };
 		922D8F8A11B397A18363004D /* HUDPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32EC313922E8C334D67A3B38 /* HUDPanel.swift */; };
 		943045D31DF7D16802321555 /* bat-flying.json in Resources */ = {isa = PBXBuildFile; fileRef = 37B52CD9019C31374D700767 /* bat-flying.json */; };
 		9DFB194BED7618EF3CB4FA0E /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = C59218388A80B688D2C6860A /* AppIcon.icon */; };
@@ -35,6 +35,9 @@
 		B83312C9ED5EACE14BA4DC4E /* HUDView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 527124EAFF475CC2382C60D7 /* HUDView.swift */; };
 		C0357FED7AB63734773928BF /* LaunchAtLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 169B7D7E060C2B828564A47A /* LaunchAtLogin.swift */; };
 		C16CF3D75C50D5BBD56C3CA8 /* BatColonyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AD23C640CE5F8D90B35A61A /* BatColonyTests.swift */; };
+		C431729EDC80F0340FA780E4 /* HeadphonesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B89045F8E10C35C925D2376 /* HeadphonesTests.swift */; };
+		CF168A3C155FD69EAD598405 /* SettingsWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAD9B13A96C6FCE7A1059D0 /* SettingsWindowController.swift */; };
+		E19CB78930AF9E9864544587 /* NSWindow+BringToFront.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AD4419C1DF73858911C11D8 /* NSWindow+BringToFront.swift */; };
 		EC93699F042C8005BAD39CA9 /* LevelChangeObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810671186AF7776E5337FAD1 /* LevelChangeObserver.swift */; };
 		F0AF720EC7237FE38FCB37A1 /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = CA8F2D2FB87DB84E7AD08FB8 /* Sparkle */; };
 		F332FFBBCA93EB7CB7ECA37A /* HalloweenAssetsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F9BC4D055BB362337CC6A75 /* HalloweenAssetsTests.swift */; };
@@ -57,7 +60,6 @@
 		04A42027CB0B5E74BC801AA2 /* HalloweenPalette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HalloweenPalette.swift; sourceTree = "<group>"; };
 		0F9BC4D055BB362337CC6A75 /* HalloweenAssetsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HalloweenAssetsTests.swift; sourceTree = "<group>"; };
 		169B7D7E060C2B828564A47A /* LaunchAtLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchAtLogin.swift; sourceTree = "<group>"; };
-		1A37F2B9DC8425DF432CA5B9 /* PreferencesWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesWindowController.swift; sourceTree = "<group>"; };
 		1E7D5E45893818938CD394A0 /* VolumeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VolumeController.swift; sourceTree = "<group>"; };
 		1F2713868130B80E0AF65E7A /* MediaKeyTap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaKeyTap.swift; sourceTree = "<group>"; };
 		28A9878F713A4F458EDA5D84 /* pumpkin.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = pumpkin.json; sourceTree = "<group>"; };
@@ -70,13 +72,17 @@
 		3EAF78655A857CC49DC379B1 /* spider.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = spider.json; sourceTree = "<group>"; };
 		46DA6880EA421BF5088821A7 /* HUDReading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HUDReading.swift; sourceTree = "<group>"; };
 		4760CDB380076CE00731E946 /* SeasonalTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonalTheme.swift; sourceTree = "<group>"; };
+		4B89045F8E10C35C925D2376 /* HeadphonesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeadphonesTests.swift; sourceTree = "<group>"; };
 		4CFF32C760686BC159E9887E /* SeasonalScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonalScene.swift; sourceTree = "<group>"; };
 		5069BD9B3A812E7FC837EA0E /* ReBezel.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ReBezel.entitlements; sourceTree = "<group>"; };
 		527124EAFF475CC2382C60D7 /* HUDView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HUDView.swift; sourceTree = "<group>"; };
 		810671186AF7776E5337FAD1 /* LevelChangeObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelChangeObserver.swift; sourceTree = "<group>"; };
 		846795841616FCCAA63DF492 /* PumpkinGlyph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PumpkinGlyph.swift; sourceTree = "<group>"; };
+		8AD4419C1DF73858911C11D8 /* NSWindow+BringToFront.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSWindow+BringToFront.swift"; sourceTree = "<group>"; };
 		9C69C95FFC1A6D1EFE206B68 /* ReBezel.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ReBezel.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1C883AB72ED78519F7B456B /* ReBezelTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ReBezelTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		ADAD9B13A96C6FCE7A1059D0 /* SettingsWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsWindowController.swift; sourceTree = "<group>"; };
+		ADB6C5DD5A49D4CF396B8534 /* HeadphonesObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeadphonesObserver.swift; sourceTree = "<group>"; };
 		B1133DD43B2CC0479B2EBAD5 /* Preferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
 		B574D6B043C97372847F866C /* BrightnessController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrightnessController.swift; sourceTree = "<group>"; };
 		B82A104F85EE944130274764 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
@@ -145,7 +151,7 @@
 			children = (
 				169B7D7E060C2B828564A47A /* LaunchAtLogin.swift */,
 				B1133DD43B2CC0479B2EBAD5 /* Preferences.swift */,
-				1A37F2B9DC8425DF432CA5B9 /* PreferencesWindowController.swift */,
+				ADAD9B13A96C6FCE7A1059D0 /* SettingsWindowController.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -156,6 +162,7 @@
 				CAF38B3F0CD57C93A65E142E /* AppDelegate.swift */,
 				C9B6EE1024B462005F616B97 /* BezelDebugMenu.swift */,
 				B82A104F85EE944130274764 /* main.swift */,
+				8AD4419C1DF73858911C11D8 /* NSWindow+BringToFront.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -165,6 +172,7 @@
 			children = (
 				2AD23C640CE5F8D90B35A61A /* BatColonyTests.swift */,
 				0F9BC4D055BB362337CC6A75 /* HalloweenAssetsTests.swift */,
+				4B89045F8E10C35C925D2376 /* HeadphonesTests.swift */,
 				32DBD4C9458B1540DC5A244C /* HUDTransitionTrackerTests.swift */,
 				F30207189575DE83BF253E16 /* SeasonalThemeTests.swift */,
 			);
@@ -207,6 +215,7 @@
 			isa = PBXGroup;
 			children = (
 				B574D6B043C97372847F866C /* BrightnessController.swift */,
+				ADB6C5DD5A49D4CF396B8534 /* HeadphonesObserver.swift */,
 				810671186AF7776E5337FAD1 /* LevelChangeObserver.swift */,
 				1E7D5E45893818938CD394A0 /* VolumeController.swift */,
 			);
@@ -358,6 +367,7 @@
 				C16CF3D75C50D5BBD56C3CA8 /* BatColonyTests.swift in Sources */,
 				885B4080D59A03EFE2F818EC /* HUDTransitionTrackerTests.swift in Sources */,
 				F332FFBBCA93EB7CB7ECA37A /* HalloweenAssetsTests.swift in Sources */,
+				C431729EDC80F0340FA780E4 /* HeadphonesTests.swift in Sources */,
 				4BC0FE56CAB265BF187362B1 /* SeasonalThemeTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -378,15 +388,17 @@
 				5EAA7029E411D51CCB1373A7 /* HalloweenAssets.swift in Sources */,
 				B0CE64370AFBFDC85E88908D /* HalloweenPalette.swift in Sources */,
 				8225C0ACDA411E01EFFD90CE /* HalloweenScene.swift in Sources */,
+				0B848586E6390F41C49D942A /* HeadphonesObserver.swift in Sources */,
 				C0357FED7AB63734773928BF /* LaunchAtLogin.swift in Sources */,
 				EC93699F042C8005BAD39CA9 /* LevelChangeObserver.swift in Sources */,
 				10172624F2C1B53ED6DCF67E /* MediaKeyTap.swift in Sources */,
+				E19CB78930AF9E9864544587 /* NSWindow+BringToFront.swift in Sources */,
 				116F92CA4FE14A37C54E468F /* OnboardingWindowController.swift in Sources */,
 				6B4ABDFF2292E059833443D0 /* Preferences.swift in Sources */,
-				8D8980409AD95FCB9B748391 /* PreferencesWindowController.swift in Sources */,
 				7C4AE834020394D1B3F3CA33 /* PumpkinGlyph.swift in Sources */,
 				5DDEF70AD89150E6D3BFC82C /* SeasonalScene.swift in Sources */,
 				79A88D8FB87C696FB2242A2C /* SeasonalTheme.swift in Sources */,
+				CF168A3C155FD69EAD598405 /* SettingsWindowController.swift in Sources */,
 				27F359EBAE14F1FD683C32CD /* VolumeController.swift in Sources */,
 				F6359EFE629A4967B1FECD69 /* main.swift in Sources */,
 			);

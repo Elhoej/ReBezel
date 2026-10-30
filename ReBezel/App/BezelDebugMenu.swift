@@ -33,6 +33,9 @@ final class BezelDebugMenu: NSObject {
         add("Brightness 0%", #selector(brightnessZero), to: menu)
         add("Brightness 100%", #selector(brightnessFull), to: menu)
         menu.addItem(.separator())
+        add("AirPods Pro Connected", #selector(airPodsConnected), to: menu)
+        add("Headphones Connected", #selector(headphonesConnected), to: menu)
+        menu.addItem(.separator())
         menu.addItem(makeBatSizeItem())
 
         let item = NSMenuItem(title: "Debug Bezel", action: nil, keyEquivalent: "")
@@ -116,6 +119,14 @@ final class BezelDebugMenu: NSObject {
         show(.brightness(level: brightness))
     }
 
+    @objc private func airPodsConnected() {
+        showHeadphones(Headphones(name: "Johnny Appleseed's AirPods Pro"))
+    }
+
+    @objc private func headphonesConnected() {
+        showHeadphones(Headphones(name: "WH-1000XM5"))
+    }
+
     @objc private func batSizeChanged(_ slider: NSSlider) {
         BatColony.sizeMultiplier = slider.doubleValue
         updateBatSizeLabel()
@@ -124,6 +135,10 @@ final class BezelDebugMenu: NSObject {
 
     private func show(_ reading: HUDReading, press: HUDTransition? = nil) {
         showReading(reading, press)
+    }
+
+    private func showHeadphones(_ headphones: Headphones) {
+        show(.caption(symbol: headphones.symbolName, text: headphones.name))
     }
 
     private func showVolume() {

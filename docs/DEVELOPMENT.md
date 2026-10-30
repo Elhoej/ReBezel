@@ -42,6 +42,16 @@ This runs when Show for Touch Bar controls is on. Its default is on when
 `com.apple.controlstrip` is running, which it only does on Macs with a Touch Bar. Changes ReBezel
 makes from a key come back through the observer too and show the same level again.
 
+### Headphones
+
+`HeadphonesObserver` listens for changes to the default output device. When the new device's
+transport type is Bluetooth (or Bluetooth LE), the bezel shows a caption with the device's name,
+and an AirPods or Beats glyph picked from that name (a plain headphones glyph otherwise). Watching
+CoreAudio instead of IOBluetooth means no Bluetooth permission is needed. It also means headphones
+that connect without taking over the sound don't show, and choosing already connected headphones
+in Control Center does. The system's own banner can't be suppressed. The Debug Bezel menu has
+entries for trying it without real headphones.
+
 ### Seasonal bezels
 
 For a few days of the year the bezel gets a theme with Lottie animations around it (so far
@@ -50,7 +60,7 @@ Halloween, October 28 to November 3; see [HALLOWEEN.md](HALLOWEEN.md)). Callers 
 previous reading of the same kind: volume up or down, mute, unmute, brightness up or down. The
 Touch Bar observer's echo of a key change is the same level again, so it counts as no change.
 While a theme is active the panel's transparent margin grows from 40 to 240 points to give the
-animations room. Show seasonal bezels in Preferences turns themes off.
+animations room. Show seasonal bezels in Settings turns themes off.
 
 Two launch arguments help when working on a theme:
 

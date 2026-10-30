@@ -8,7 +8,7 @@ brightness down.
 ## Decisions
 
 - **Season window:** October 28 to November 3 (three days either side of the 31st), in the
-  user's own calendar. On by default; Preferences has a switch that turns seasonal bezels off
+  user's own calendar. On by default; Settings has a switch that turns seasonal bezels off
   completely, and a pop-up for the look (below), enabled while the switch is on.
 - **Two looks, the user's pick** (`HalloweenLook`, default Harvest Moon). See [Look](#look).
 - **No pumpkin for now.** Its full-colour artwork didn't fit either look, so brightness keeps
@@ -30,7 +30,7 @@ each reading with the previous one of its kind and derives an `HUDTransition`.
 
 This matters because the Touch Bar observer echoes ReBezel's own key changes back as a second
 reading of the same level. Derived from the difference, that echo is "no change" and nothing
-fires twice. Keys, the Touch Bar and the Preferences preview all go through the same path.
+fires twice. Keys, the Touch Bar and the Settings preview all go through the same path.
 
 - Brightness is compared per display (Control+brightness changes an external one).
 - A brightness key pressed at the end of the range passes the key's direction along with the
@@ -208,7 +208,7 @@ critical path.
 
 0. **Setup.** Add `lottie-spm`; download and check the bat and spider; source the custom assets.
 1. **Foundations.** `HUDReading`/`HUDTransition` with tests (new `ReBezelTests` target);
-   `AppDelegate` on readings; `SeasonalTheme`, the Preferences switch and the `--season`
+   `AppDelegate` on readings; `SeasonalTheme`, the Settings switch and the `--season`
    launch argument; the larger panel, `HUDView.glyphOverride`, an empty `HalloweenScene`, and
    pausing on fade-out; a debug menu that fires each transition.
 2. **Brightness.** Pumpkin, `BatRoost`, `BatSwarm`.

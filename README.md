@@ -40,7 +40,11 @@ DDC monitors and the keyboard backlight keys aren't supported.
 
 On a Mac with a Touch Bar, the bezel also shows for the Touch Bar's volume and brightness controls,
 and for volume changes made elsewhere, such as in Control Center. macOS still shows its banner for
-those, so you'll see both. Turn this off in Preferences under Show for Touch Bar controls.
+those, so you'll see both. Turn this off in Settings under Show for Touch Bar controls.
+
+When AirPods or other Bluetooth headphones connect and the sound moves to them, the bezel shows
+their name. macOS shows its banner for this too. Turn this off in Settings under Show when
+headphones connect.
 
 ReBezel runs from the menu bar with no Dock icon. It can start at login, and you can hide the menu bar
 icon; open the app again from Finder or Spotlight to get it back.
@@ -54,8 +58,8 @@ icon; open the app again from Finder or Spotlight to get it back.
 
 Control Center draws the Tahoe banner and has no setting to turn it off. Accessibility access lets
 ReBezel catch the volume and brightness keys first, change the level itself and show its own bezel.
-Until you grant it, the menu bar icon shows a warning triangle. Settings are in Preferences (⌘, from
-the menu bar icon).
+Until you grant it, the menu bar icon shows a warning triangle. Choose Settings… (⌘,) from the menu
+bar icon to change the bezel.
 
 ## Troubleshooting
 

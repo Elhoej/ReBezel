@@ -39,6 +39,7 @@ enum Preferences {
     private static let hideMenuBarIconKey = "hideMenuBarIcon"
     private static let didCompleteOnboardingKey = "didCompleteOnboarding"
     private static let showForTouchBarKey = "showForTouchBar"
+    private static let showForHeadphonesKey = "showForHeadphones"
     private static let showSeasonalThemesKey = "showSeasonalThemes"
     private static let halloweenLookKey = "halloweenLook"
 
@@ -86,6 +87,14 @@ enum Preferences {
                 ?? !NSRunningApplication.runningApplications(withBundleIdentifier: controlStripBundleIdentifier).isEmpty
         }
         set { UserDefaults.standard.set(newValue, forKey: showForTouchBarKey) }
+    }
+
+    /// Show the bezel with the headphones' name when the sound moves to
+    /// Bluetooth headphones, such as when AirPods connect. On until the user
+    /// turns it off.
+    static var showForHeadphones: Bool {
+        get { UserDefaults.standard.object(forKey: showForHeadphonesKey) as? Bool ?? true }
+        set { UserDefaults.standard.set(newValue, forKey: showForHeadphonesKey) }
     }
 
     /// Show a themed bezel in season, such as around Halloween. On until the

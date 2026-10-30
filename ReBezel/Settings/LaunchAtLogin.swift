@@ -3,7 +3,7 @@ import ServiceManagement
 import os
 
 /// Registers the app as a login item via SMAppService. Enabled by default on
-/// first launch; afterwards the user's choice in Preferences (or in System
+/// first launch; afterwards the user's choice in Settings (or in System
 /// Settings → Login Items) is respected.
 @MainActor
 enum LaunchAtLogin {
