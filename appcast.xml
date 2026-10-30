@@ -6,6 +6,25 @@
         <language>en</language>
         <!-- Scripts/release.sh inserts new items below this line, newest first. -->
         <item>
+            <title>Version 1.2.0</title>
+            <pubDate>Fri, 30 Oct 2026 09:12:47 +0000</pubDate>
+            <sparkle:version>4</sparkle:version>
+            <sparkle:shortVersionString>1.2.0</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>26.0</sparkle:minimumSystemVersion>
+            <description sparkle:format="markdown"><![CDATA[
+## What's new
+
+- When AirPods or other Bluetooth headphones connect and the sound moves to them, the bezel shows their name, with an AirPods, Beats or headphones glyph. A long name wraps onto two lines. macOS shows its own banner for this too, so you'll see both. Turn it off in Settings with "Show when headphones connect".
+- From October 28 to November 3 the bezel dresses up for Halloween. Bats hang from the top of the bezel above a graveyard, more of them the darker the screen or the quieter the sound. Turn the volume or brightness up and they fly off. Pick the look in Settings, Harvest Moon (an amber glow) or Silhouettes, or turn seasonal bezels off with "Show seasonal bezels".
+- Preferences is now called Settings.
+
+## Fixes
+
+- Choosing Settings… from the menu bar icon now always brings the window to the front. Before, a Settings window that was already open could stay hidden behind other apps or on another Space.
+]]></description>
+            <enclosure url="https://github.com/Elhoej/ReBezel/releases/download/v1.2.0/ReBezel-1.2.0.zip" type="application/octet-stream" sparkle:edSignature="9JDOi2jIoHMM7eEbInm19Id4IK4Ieu6cg9Ic0kanlLm/YCDMssVAOMBw827Vruhrfdh/iADnQx+njtAg9cftAQ==" length="5606512"/>
+        </item>
+        <item>
             <title>Version 1.1.1</title>
             <pubDate>Fri, 23 Oct 2026 08:37:39 +0000</pubDate>
             <sparkle:version>3</sparkle:version>
