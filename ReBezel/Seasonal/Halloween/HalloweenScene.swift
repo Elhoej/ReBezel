@@ -1,8 +1,7 @@
 import Cocoa
 import os
 
-/// The Halloween bezel: bats for brightness, ghostly wisps and a rising ghost
-/// for volume, and a spider spinning a web on mute, all drawn in the look
+/// The Halloween bezel: bats for brightness and volume, drawn in the look
 /// picked in Preferences (`HalloweenLook`). See docs/HALLOWEEN.md.
 ///
 /// Each part has its own stage view around the bezel, back to front: the
@@ -23,11 +22,20 @@ final class HalloweenScene: SeasonalScene {
     /// colours don't fit either look.
     private static let showsPumpkin = false
 
+    /// Which level the bats' roost shows.
+    private enum Gauge {
+        case brightness
+        case volume
+    }
+
     private let pumpkin: PumpkinGlyph?
     private let bats: BatColony?
     /// The last brightness shown; `nil` until the first one, which is shown
     /// without animating.
     private var brightness: Float?
+    /// What the roost last showed; `nil` until the first reading, or after a
+    /// caption hid the bats.
+    private var roost: Gauge?
 
     init(host: SeasonalSceneHost) {
         hudView = host.hudView
@@ -60,22 +68,38 @@ final class HalloweenScene: SeasonalScene {
     }
 
     func apply(_ reading: HUDReading, transition: HUDTransition) {
+        // A reading that isn't a change (e.g. on a screen the bezel wasn't on)
+        // goes straight there.
+        let moves = transition != .none && !NSWorkspace.shared.accessibilityDisplayShouldReduceMotion
         switch reading {
         case .brightness(let level):
-            // The first brightness this scene shows, and a reading that isn't a
-            // change (e.g. on a screen the bezel wasn't on), go straight there.
-            let animated = brightness != nil && transition != .none
-                && !NSWorkspace.shared.accessibilityDisplayShouldReduceMotion
+            // So does the first brightness this scene shows.
+            pumpkin?.show(level: level, animated: moves && brightness != nil)
             brightness = level
             hudView.glyphOverride = pumpkin?.view
-            pumpkin?.show(level: level, animated: animated)
-            batStage.isHidden = false
-            bats?.show(brightness: level, animated: animated, burst: animated && transition == .brightnessUp)
+            showBats(level: level, for: .brightness, animated: moves, burst: transition == .brightnessUp)
 
-        case .volume, .caption:
+        case .volume(let level, _):
+            hudView.glyphOverride = nil
+            // Silence hangs every bat, as the darkest screen does.
+            showBats(level: reading.isSilent ? 0 : level, for: .volume, animated: moves,
+                     burst: transition == .volumeUp)
+
+        case .caption:
             hudView.glyphOverride = nil
             batStage.isHidden = true
+            roost = nil
         }
+    }
+
+    /// Brings the roost to `level` of `gauge`. Switching between brightness
+    /// and volume jumps to the other level rather than flying every bat off
+    /// or in for it.
+    private func showBats(level: Float, for gauge: Gauge, animated: Bool, burst: Bool) {
+        let animated = animated && roost == gauge
+        roost = gauge
+        batStage.isHidden = false
+        bats?.show(level: level, animated: animated, burst: animated && burst)
     }
 
     func pause() {

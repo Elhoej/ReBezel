@@ -119,8 +119,14 @@ the frame with its wings raised.
 
 ### Volume
 
-The glyph is SF `speaker` with Lottie wisps in place of the three waves. The ghost lives above
-the bezel.
+- **Bats:** the same roost as brightness, following the volume: `ceil((1 − volume) × 16)` bats,
+  all 16 when silent (muted or at 0). Volume up sends bats off with a burst from the bezel,
+  volume down brings them in to hang, mute brings in the rest and unmute sends them off
+  without a burst. Switching between a volume and a brightness bezel jumps the roost to the
+  other level without flights.
+
+Not built yet: the glyph is SF `speaker` with Lottie wisps in place of the three waves. The
+ghost lives above the bezel.
 
 | | Wisps | Ghost |
 |---|---|---|

@@ -5,23 +5,23 @@ import Lottie
 /// whole scene (bats, graveyard, glyph, level bar) as silhouettes in one ink;
 /// they differ in what the silhouettes stand against.
 enum HalloweenLook: String, CaseIterable, Sendable {
+    /// Near-black silhouettes against a warm glow inside the bezel, like a
+    /// low harvest moon. The default, so listed first.
+    case harvestMoon
     /// Black silhouettes with a pale rim on the bezel's own background.
     case silhouettes
-    /// Near-black silhouettes against a warm glow inside the bezel, like a
-    /// low harvest moon.
-    case harvestMoon
 
     var title: String {
         switch self {
-        case .silhouettes: "Silhouettes"
         case .harvestMoon: "Harvest Moon"
+        case .silhouettes: "Silhouettes"
         }
     }
 
     var palette: HalloweenPalette {
         switch self {
-        case .silhouettes: .silhouettes
         case .harvestMoon: .harvestMoon
+        case .silhouettes: .silhouettes
         }
     }
 }

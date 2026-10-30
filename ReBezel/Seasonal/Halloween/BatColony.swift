@@ -1,27 +1,29 @@
 import Cocoa
 import Lottie
 
-/// The bats that come with the jack-o'-lantern. Up to `roostSize` hang inside
-/// the bezel from its top edge, more the darker the screen. As it brightens,
-/// random bats leave the roost and a few more burst out of the bezel; as it
-/// dims, bats fly in and hang in a random free spot.
+/// The bats for brightness and volume. Up to `roostSize` hang inside the bezel
+/// from its top edge, more the lower the level: the darker the screen or the
+/// quieter the sound. As the level goes up, random bats leave the roost and a
+/// few more burst out of the bezel; as it goes down, bats fly in and hang in a
+/// random free spot.
 ///
 /// Every bat plays the same flapping loop. A Lottie file can't spawn or steer
 /// copies of itself, so the flights are Core Animation paths with a random
 /// curve, length, speed and size each time.
 @MainActor
 final class BatColony {
-    /// One spot per brightness key step (1/16), so every press down adds a bat.
+    /// One spot per key step (1/16), so every press down adds a bat.
     nonisolated static let roostSize = 16
     /// Most bats in the air at once (not counting ones flying in to hang), so
     /// holding the key doesn't flood the screen.
     static let maxFlying = 24
 
-    /// Bats hanging at `brightness`: none at full brightness, all of them in the dark.
-    nonisolated static func roostCount(for brightness: Float) -> Int {
-        let darkness = 1 - min(max(brightness, 0), 1)
+    /// Bats hanging at `level`: none at full brightness or volume, all of them
+    /// in the dark or in silence.
+    nonisolated static func roostCount(for level: Float) -> Int {
+        let depth = 1 - min(max(level, 0), 1)
         // The tolerance keeps float error (0.1 × 10 = 1.0000001) from rounding up a bat too many.
-        return max(0, Int((darkness * Float(roostSize) - 0.0001).rounded(.up)))
+        return max(0, Int((depth * Float(roostSize) - 0.0001).rounded(.up)))
     }
 
     /// How far below the bezel's top edge each spot hangs. Neighbours alternate
@@ -69,10 +71,10 @@ final class BatColony {
         screenScale = NSScreen.screens.map(\.backingScaleFactor).max() ?? 2
     }
 
-    /// Brings the roost to `brightness`. Animated, bats fly off or in for the
+    /// Brings the roost to `level`. Animated, bats fly off or in for the
     /// difference, and `burst` sends a few more out of the bezel.
-    func show(brightness: Float, animated: Bool, burst: Bool) {
-        let target = Self.roostCount(for: brightness)
+    func show(level: Float, animated: Bool, burst: Bool) {
+        let target = Self.roostCount(for: level)
         guard animated else {
             settle(count: target)
             return
