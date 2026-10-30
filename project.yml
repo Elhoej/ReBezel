@@ -59,7 +59,7 @@ targets:
       testTargets:
         - ReBezelTests
       commandLineArguments:
-        "--season halloween": true
+        "--season halloween": false
         "--debug-bezel": true
   ReBezelTests:
     type: bundle.unit-test
