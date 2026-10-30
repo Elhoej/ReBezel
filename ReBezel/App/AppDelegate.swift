@@ -14,6 +14,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private let updater = AppUpdater()
     private lazy var preferences = makePreferencesWindowController()
     private var onboarding: OnboardingWindowController?
+    private lazy var debugMenu = BezelDebugMenu { [weak self] reading, press in
+        self?.hud.show(reading, press: press)
+    }
 
     /// One of the 16 segments on the bezel.
     private let normalStep: Float = 1.0 / 16.0
@@ -70,6 +73,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         menu.addItem(withTitle: "Preferences…", action: #selector(showPreferences), keyEquivalent: ",")
         menu.addItem(updater.makeMenuItem())
         menu.addItem(withTitle: "Open Accessibility Settings…", action: #selector(openAccessibilitySettings), keyEquivalent: "")
+        if CommandLine.arguments.contains(BezelDebugMenu.launchArgument) {
+            menu.addItem(.separator())
+            menu.addItem(debugMenu.makeMenuItem())
+        }
         menu.addItem(.separator())
         menu.addItem(withTitle: "Quit ReBezel", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q")
         item.menu = menu
@@ -82,7 +89,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         let controller = PreferencesWindowController(updater: updater)
         controller.onHUDSettingChanged = { [weak self] in
             // Preview the new look/spot right away.
-            self?.hud.show(symbol: "sun.max", level: 0.5)
+            self?.previewBrightness()
         }
         controller.onTouchBarSettingChanged = { [weak self] in
             self?.applyTouchBarSetting()
@@ -104,7 +111,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         if onboarding == nil {
             let controller = OnboardingWindowController()
             controller.onPreviewRequested = { [weak self] in
-                self?.hud.show(symbol: "speaker.wave.3", level: 0.5)
+                self?.previewVolume()
             }
             controller.onPermissionRequested = { [weak self] in
                 self?.requestAccessibility()
@@ -137,7 +144,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     /// Confirms that everything is set up: a checkmark bezel in the chosen
     /// style and position, and the walkthrough (if open) goes away.
     private func celebratePermission() {
-        hud.show(symbol: "checkmark", caption: "Voilá!")
+        hud.show(.caption(symbol: "checkmark", text: "Voilá!"))
         onboarding?.finish()
     }
 
@@ -168,7 +175,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         }
         observer.onBrightnessChange = { [weak self] value in
             Self.logger.info("🟢 TOUCH BAR BEZEL ▸ brightness \(Int((value * 100).rounded()))%")
-            self?.hud.show(symbol: "sun.max", level: value)
+            self?.hud.show(.brightness(level: value))
         }
         return observer
     }
@@ -320,9 +327,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     private func showVolume(_ value: Float, muted: Bool) {
-        // Muted, or turned all the way down: slashed speaker over an empty bar.
-        let silent = muted || value <= 0
-        hud.show(symbol: silent ? "speaker.slash" : "speaker.wave.3", level: silent ? 0 : value)
+        hud.show(.volume(level: value, muted: muted))
     }
 
     private func handleBrightness(_ event: MediaKeyEvent, display: CGDirectDisplayID) {
@@ -335,7 +340,22 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         // cursor, so the bezel goes on that display. Plain keys keep showing it
         // on the active screen.
         let bezelDisplay = event.modifiers.contains(.control) ? display : nil
-        hud.show(symbol: "sun.max", level: value, on: bezelDisplay)
+        hud.show(.brightness(level: value), on: bezelDisplay,
+                 press: event.key == .brightnessUp ? .brightnessUp : .brightnessDown)
+    }
+
+    // MARK: - Previews
+
+    // Previews show the real levels: the bezel animates whatever changed since
+    // the last level it showed, so a made-up level would count as a change.
+
+    private func previewVolume() {
+        showVolume(VolumeController.volume() ?? 0.5, muted: VolumeController.isMuted())
+    }
+
+    private func previewBrightness() {
+        let level = brightness.primaryDisplay().flatMap { brightness.brightness(of: $0) } ?? 0.5
+        hud.show(.brightness(level: level))
     }
 
     /// Clamp to 0...1 and align to the step grid so repeated presses land on clean values.

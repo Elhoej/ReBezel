@@ -15,6 +15,10 @@ packages:
     url: https://github.com/sparkle-project/Sparkle
     # 2.9 is the first version that renders Markdown release notes.
     from: 2.9.0
+  Lottie:
+    # The lightweight SPM mirror of lottie-ios (a prebuilt XCFramework).
+    url: https://github.com/airbnb/lottie-spm
+    from: 4.6.1
 targets:
   ReBezel:
     type: application
@@ -23,6 +27,7 @@ targets:
       - path: ReBezel
     dependencies:
       - package: Sparkle
+      - package: Lottie
     info:
       path: ReBezel/Info.plist
       properties:
@@ -50,3 +55,21 @@ targets:
         SWIFT_STRICT_CONCURRENCY: complete
         MARKETING_VERSION: "1.1.1"
         CURRENT_PROJECT_VERSION: "3"
+    scheme:
+      testTargets:
+        - ReBezelTests
+      commandLineArguments:
+        "--season halloween": true
+        "--debug-bezel": true
+  ReBezelTests:
+    type: bundle.unit-test
+    platform: macOS
+    sources:
+      - path: ReBezelTests
+    dependencies:
+      - target: ReBezel
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.simonelhoej.ReBezelTests
+        GENERATE_INFOPLIST_FILE: true
+        SWIFT_STRICT_CONCURRENCY: complete

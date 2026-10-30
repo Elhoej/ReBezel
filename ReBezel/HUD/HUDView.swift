@@ -22,16 +22,67 @@ final class HUDView: NSView {
     var symbolName: String = "speaker.wave.3" { didSet { updateImage() } }
     var content: Content = .level(0) { didSet { updateContent() } }
 
+    /// Shown in place of the symbol, in the same spot, e.g. a seasonal theme's
+    /// animated glyph.
+    var glyphOverride: NSView? {
+        didSet {
+            guard glyphOverride !== oldValue else { return }
+            oldValue?.removeFromSuperview()
+            if let glyphOverride { addSubview(glyphOverride) }
+            imageView.isHidden = glyphOverride != nil
+            needsLayout = true
+        }
+    }
+
+    /// Shown along the bottom edge behind the glyph, e.g. a seasonal theme's
+    /// scenery: at its own aspect ratio, `backdropOverhang` wider than the
+    /// bezel on each side and cut off at the bezel's edges. The bar and
+    /// caption move up to stand clear of it.
+    var backdrop: NSImage? {
+        didSet {
+            backdropView.image = backdrop
+            backdropView.isHidden = backdrop == nil
+            needsLayout = true
+            needsDisplay = true
+        }
+    }
+
+    /// A radial glow, from the centre outwards, with where each colour sits (0...1).
+    struct Backlight: Equatable {
+        var colors: [NSColor]
+        var locations: [CGFloat]
+    }
+
+    /// Drawn behind everything else, centred on the glyph and reaching the
+    /// corners, cut to `cornerRadius`: e.g. a seasonal theme's light source.
+    /// `nil` draws none.
+    var backlight: Backlight? { didSet { needsDisplay = true } }
+
+    /// The corner radius of the background the view sits in. Only the
+    /// backlight is cut to it; the background clips everything else itself.
+    var cornerRadius: CGFloat = 0 { didSet { needsDisplay = true } }
+
     // Geometry, in points, for a 200x200 bezel.
     private let symbolPointSize: CGFloat = 96
     private let symbolCenterY: CGFloat = 112
     private let trackInset: CGFloat = 20
-    private let trackBottom: CGFloat = 18
+    private let defaultTrackBottom: CGFloat = 18
+    /// Space between the top of the backdrop and the bar.
+    private let backdropGap: CGFloat = 6
+    /// How far the backdrop reaches past the bezel's left and right edges.
+    private let backdropOverhang: CGFloat = 8
     private let trackHeight: CGFloat = 9
     private let trackCornerRadius: CGFloat = 2.5
     private let segmentPadding: CGFloat = 1
     private let segmentGap: CGFloat = 1.5
     private let segmentCornerRadius: CGFloat = 1
+    private var backdropHeight: CGFloat {
+        guard let backdrop, backdrop.size.width > 0 else { return 0 }
+        return (bounds.width + backdropOverhang * 2) * backdrop.size.height / backdrop.size.width
+    }
+    private var trackBottom: CGFloat {
+        backdrop == nil ? defaultTrackBottom : max(defaultTrackBottom, backdropHeight + backdropGap)
+    }
     /// The caption is centred on the same line as the track.
     private var captionCenterY: CGFloat { trackBottom + trackHeight / 2 + 1 }
 
@@ -45,17 +96,37 @@ final class HUDView: NSView {
     }
     /// Colour of the empty bar behind the segments.
     var trackColor = NSColor(white: 0, alpha: 0.3) { didSet { needsDisplay = true } }
+    /// A soft rim of this colour around the glyph, the filled segments, the
+    /// caption and the backdrop, so a dark `foreground` still shows on a dark
+    /// background. `nil` (the default) draws them plain.
+    var rim: NSColor? {
+        didSet {
+            applyRim(to: imageView.layer)
+            applyRim(to: captionLabel.layer)
+            backdropView.rim = rim
+            needsDisplay = true
+        }
+    }
+    /// How far the rim spreads, in points.
+    private let rimRadius: CGFloat = 2
 
+    private let backdropView = BackdropView()
     private let imageView = NSImageView()
     private let captionLabel = PlainLabel(labelWithString: "")
 
     override init(frame: NSRect) {
         super.init(frame: frame)
         wantsLayer = true
+        backdropView.overhang = backdropOverhang
+        backdropView.isHidden = true
+        addSubview(backdropView)
+
         imageView.imageScaling = .scaleNone
         imageView.contentTintColor = foreground
+        imageView.wantsLayer = true
         addSubview(imageView)
 
+        captionLabel.wantsLayer = true
         captionLabel.alignment = .center
         captionLabel.font = .systemFont(ofSize: 19, weight: .medium)
         captionLabel.textColor = foreground
@@ -80,6 +151,8 @@ final class HUDView: NSView {
             width: side,
             height: side
         )
+        glyphOverride?.frame = imageView.frame
+        backdropView.frame = NSRect(x: 0, y: 0, width: bounds.width, height: backdropHeight)
         let captionHeight = captionLabel.fittingSize.height
         captionLabel.frame = NSRect(
             x: trackInset / 2,
@@ -110,6 +183,10 @@ final class HUDView: NSView {
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
 
+        if let backlight {
+            drawBacklight(backlight)
+        }
+
         guard case .level(let level) = content else { return }
 
         let track = NSRect(
@@ -131,6 +208,14 @@ final class HUDView: NSView {
         let fullSegments = filledQuarters / Self.subdivisions
         let partialQuarters = filledQuarters % Self.subdivisions
 
+        NSGraphicsContext.saveGraphicsState()
+        defer { NSGraphicsContext.restoreGraphicsState() }
+        if let rim {
+            let shadow = NSShadow()
+            shadow.shadowColor = rim
+            shadow.shadowBlurRadius = rimRadius
+            shadow.set()
+        }
         foreground.setFill()
         for index in 0..<fullSegments {
             NSBezierPath(roundedRect: segmentRect(index, in: inner, width: segmentWidth),
@@ -148,9 +233,31 @@ final class HUDView: NSView {
         }
     }
 
+    /// The glow is centred on the glyph. The farthest corner is at most
+    /// about 0.75 of the width away, so the last colour is only just
+    /// arriving at the corners.
+    private func drawBacklight(_ backlight: Backlight) {
+        guard let gradient = NSGradient(colors: backlight.colors, atLocations: backlight.locations, colorSpace: .sRGB)
+        else { return }
+        let center = NSPoint(x: bounds.midX, y: symbolCenterY)
+        NSGraphicsContext.saveGraphicsState()
+        NSBezierPath(roundedRect: bounds, xRadius: cornerRadius, yRadius: cornerRadius).addClip()
+        gradient.draw(fromCenter: center, radius: 0, toCenter: center, radius: bounds.width * 0.8,
+                      options: [.drawsAfterEndingLocation])
+        NSGraphicsContext.restoreGraphicsState()
+    }
+
     private func segmentRect(_ index: Int, in inner: NSRect, width: CGFloat) -> NSRect {
         let x = inner.minX + CGFloat(index) * (width + segmentGap)
         return NSRect(x: x, y: inner.minY, width: width, height: inner.height)
+    }
+
+    private func applyRim(to layer: CALayer?) {
+        guard let layer else { return }
+        layer.shadowColor = rim?.withAlphaComponent(1).cgColor
+        layer.shadowOpacity = Float(rim?.alphaComponent ?? 0)
+        layer.shadowRadius = rimRadius
+        layer.shadowOffset = .zero
     }
 }
 
@@ -158,4 +265,31 @@ final class HUDView: NSView {
 /// matching the glyph and the level bar.
 private final class PlainLabel: NSTextField {
     override var allowsVibrancy: Bool { false }
+}
+
+/// Draws `image` across its full height and `overhang` wider than itself on
+/// each side, cut off at its own edges, with a soft `rim` around it if given.
+private final class BackdropView: NSView {
+    var image: NSImage? { didSet { needsDisplay = true } }
+    var overhang: CGFloat = 0 { didSet { needsDisplay = true } }
+    var rim: NSColor? { didSet { needsDisplay = true } }
+
+    override init(frame: NSRect) {
+        super.init(frame: frame)
+        clipsToBounds = true
+    }
+
+    required init?(coder: NSCoder) { fatalError("init(coder:) is not supported") }
+
+    override var allowsVibrancy: Bool { false }
+
+    override func draw(_ dirtyRect: NSRect) {
+        if let rim {
+            let shadow = NSShadow()
+            shadow.shadowColor = rim
+            shadow.shadowBlurRadius = 2
+            shadow.set()
+        }
+        image?.draw(in: bounds.insetBy(dx: -overhang, dy: 0))
+    }
 }

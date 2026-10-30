@@ -10,42 +10,86 @@
 		074ACFA43AD533FFBC249977 /* HUDWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2439F22543C412740E22419 /* HUDWindowController.swift */; };
 		10172624F2C1B53ED6DCF67E /* MediaKeyTap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2713868130B80E0AF65E7A /* MediaKeyTap.swift */; };
 		116F92CA4FE14A37C54E468F /* OnboardingWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BCFEFDD7FFC8AB0236B3D9 /* OnboardingWindowController.swift */; };
+		1F3A50B6B0EA497B05DCB2C8 /* BatColony.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AFFDAF9B228D447D1FB9B09 /* BatColony.swift */; };
 		27F359EBAE14F1FD683C32CD /* VolumeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E7D5E45893818938CD394A0 /* VolumeController.swift */; };
+		2ADC3E724B4909F95B73045D /* pumpkin.json in Resources */ = {isa = PBXBuildFile; fileRef = 28A9878F713A4F458EDA5D84 /* pumpkin.json */; };
 		37774FCE93D4ED7D229F2CDB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D273B0D260E061FDC04CC835 /* Assets.xcassets */; };
+		4BC0FE56CAB265BF187362B1 /* SeasonalThemeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F30207189575DE83BF253E16 /* SeasonalThemeTests.swift */; };
+		5DDEF70AD89150E6D3BFC82C /* SeasonalScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CFF32C760686BC159E9887E /* SeasonalScene.swift */; };
+		5EAA7029E411D51CCB1373A7 /* HalloweenAssets.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA7D17E1D6226B692DCF400F /* HalloweenAssets.swift */; };
 		658721771DB74801BA46F504 /* BrightnessController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B574D6B043C97372847F866C /* BrightnessController.swift */; };
+		665C9C40B0636CF07F535EEB /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = DEFD0F51EAE822B7B53E0028 /* Lottie */; };
 		6B4ABDFF2292E059833443D0 /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1133DD43B2CC0479B2EBAD5 /* Preferences.swift */; };
+		79A88D8FB87C696FB2242A2C /* SeasonalTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4760CDB380076CE00731E946 /* SeasonalTheme.swift */; };
+		7C027A5D7917D1DE3E87911E /* BezelDebugMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B6EE1024B462005F616B97 /* BezelDebugMenu.swift */; };
+		7C4AE834020394D1B3F3CA33 /* PumpkinGlyph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846795841616FCCAA63DF492 /* PumpkinGlyph.swift */; };
+		8225C0ACDA411E01EFFD90CE /* HalloweenScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = CECEF8FA17168DFD3CFA62FC /* HalloweenScene.swift */; };
+		8417CCA257E884657CE3BF4B /* spider.json in Resources */ = {isa = PBXBuildFile; fileRef = 3EAF78655A857CC49DC379B1 /* spider.json */; };
+		885B4080D59A03EFE2F818EC /* HUDTransitionTrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DBD4C9458B1540DC5A244C /* HUDTransitionTrackerTests.swift */; };
 		8D8980409AD95FCB9B748391 /* PreferencesWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A37F2B9DC8425DF432CA5B9 /* PreferencesWindowController.swift */; };
 		922D8F8A11B397A18363004D /* HUDPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32EC313922E8C334D67A3B38 /* HUDPanel.swift */; };
+		943045D31DF7D16802321555 /* bat-flying.json in Resources */ = {isa = PBXBuildFile; fileRef = 37B52CD9019C31374D700767 /* bat-flying.json */; };
 		9DFB194BED7618EF3CB4FA0E /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = C59218388A80B688D2C6860A /* AppIcon.icon */; };
+		9EC82BE9AA994AFFDA2D0F75 /* HUDReading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46DA6880EA421BF5088821A7 /* HUDReading.swift */; };
+		B0CE64370AFBFDC85E88908D /* HalloweenPalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A42027CB0B5E74BC801AA2 /* HalloweenPalette.swift */; };
 		B83312C9ED5EACE14BA4DC4E /* HUDView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 527124EAFF475CC2382C60D7 /* HUDView.swift */; };
 		C0357FED7AB63734773928BF /* LaunchAtLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 169B7D7E060C2B828564A47A /* LaunchAtLogin.swift */; };
+		C16CF3D75C50D5BBD56C3CA8 /* BatColonyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AD23C640CE5F8D90B35A61A /* BatColonyTests.swift */; };
 		EC93699F042C8005BAD39CA9 /* LevelChangeObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810671186AF7776E5337FAD1 /* LevelChangeObserver.swift */; };
 		F0AF720EC7237FE38FCB37A1 /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = CA8F2D2FB87DB84E7AD08FB8 /* Sparkle */; };
+		F332FFBBCA93EB7CB7ECA37A /* HalloweenAssetsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F9BC4D055BB362337CC6A75 /* HalloweenAssetsTests.swift */; };
 		F6359EFE629A4967B1FECD69 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82A104F85EE944130274764 /* main.swift */; };
 		FE2B261582DF7419AB053381 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAF38B3F0CD57C93A65E142E /* AppDelegate.swift */; };
 		FE5B3AE8ACDBD25E7E95D535 /* AppUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDDCC5A9B8F2EB8400F45D86 /* AppUpdater.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		7117DAF28989C580EE8D93A2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6F6D6F33C4C919D696274F6C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7DBA98EB60AE7AF8E8320151;
+			remoteInfo = ReBezel;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		04A42027CB0B5E74BC801AA2 /* HalloweenPalette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HalloweenPalette.swift; sourceTree = "<group>"; };
+		0F9BC4D055BB362337CC6A75 /* HalloweenAssetsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HalloweenAssetsTests.swift; sourceTree = "<group>"; };
 		169B7D7E060C2B828564A47A /* LaunchAtLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchAtLogin.swift; sourceTree = "<group>"; };
 		1A37F2B9DC8425DF432CA5B9 /* PreferencesWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesWindowController.swift; sourceTree = "<group>"; };
 		1E7D5E45893818938CD394A0 /* VolumeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VolumeController.swift; sourceTree = "<group>"; };
 		1F2713868130B80E0AF65E7A /* MediaKeyTap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaKeyTap.swift; sourceTree = "<group>"; };
+		28A9878F713A4F458EDA5D84 /* pumpkin.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = pumpkin.json; sourceTree = "<group>"; };
+		2AD23C640CE5F8D90B35A61A /* BatColonyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatColonyTests.swift; sourceTree = "<group>"; };
 		2DDF5FB7727CFC44FBC56BB2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		32DBD4C9458B1540DC5A244C /* HUDTransitionTrackerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HUDTransitionTrackerTests.swift; sourceTree = "<group>"; };
 		32EC313922E8C334D67A3B38 /* HUDPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HUDPanel.swift; sourceTree = "<group>"; };
+		37B52CD9019C31374D700767 /* bat-flying.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "bat-flying.json"; sourceTree = "<group>"; };
+		3AFFDAF9B228D447D1FB9B09 /* BatColony.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatColony.swift; sourceTree = "<group>"; };
+		3EAF78655A857CC49DC379B1 /* spider.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = spider.json; sourceTree = "<group>"; };
+		46DA6880EA421BF5088821A7 /* HUDReading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HUDReading.swift; sourceTree = "<group>"; };
+		4760CDB380076CE00731E946 /* SeasonalTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonalTheme.swift; sourceTree = "<group>"; };
+		4CFF32C760686BC159E9887E /* SeasonalScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonalScene.swift; sourceTree = "<group>"; };
 		5069BD9B3A812E7FC837EA0E /* ReBezel.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ReBezel.entitlements; sourceTree = "<group>"; };
 		527124EAFF475CC2382C60D7 /* HUDView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HUDView.swift; sourceTree = "<group>"; };
 		810671186AF7776E5337FAD1 /* LevelChangeObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelChangeObserver.swift; sourceTree = "<group>"; };
+		846795841616FCCAA63DF492 /* PumpkinGlyph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PumpkinGlyph.swift; sourceTree = "<group>"; };
 		9C69C95FFC1A6D1EFE206B68 /* ReBezel.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ReBezel.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A1C883AB72ED78519F7B456B /* ReBezelTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ReBezelTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B1133DD43B2CC0479B2EBAD5 /* Preferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
 		B574D6B043C97372847F866C /* BrightnessController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrightnessController.swift; sourceTree = "<group>"; };
 		B82A104F85EE944130274764 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		BDDCC5A9B8F2EB8400F45D86 /* AppUpdater.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUpdater.swift; sourceTree = "<group>"; };
 		C59218388A80B688D2C6860A /* AppIcon.icon */ = {isa = PBXFileReference; lastKnownFileType = wrapper.icon; path = AppIcon.icon; sourceTree = "<group>"; };
 		C8BCFEFDD7FFC8AB0236B3D9 /* OnboardingWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingWindowController.swift; sourceTree = "<group>"; };
+		C9B6EE1024B462005F616B97 /* BezelDebugMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BezelDebugMenu.swift; sourceTree = "<group>"; };
 		CAF38B3F0CD57C93A65E142E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		CECEF8FA17168DFD3CFA62FC /* HalloweenScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HalloweenScene.swift; sourceTree = "<group>"; };
 		D273B0D260E061FDC04CC835 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		EA7D17E1D6226B692DCF400F /* HalloweenAssets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HalloweenAssets.swift; sourceTree = "<group>"; };
 		F2439F22543C412740E22419 /* HUDWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HUDWindowController.swift; sourceTree = "<group>"; };
+		F30207189575DE83BF253E16 /* SeasonalThemeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonalThemeTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +98,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F0AF720EC7237FE38FCB37A1 /* Sparkle in Frameworks */,
+				665C9C40B0636CF07F535EEB /* Lottie in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -68,6 +113,16 @@
 			path = MediaKeys;
 			sourceTree = "<group>";
 		};
+		237F26E577E4D25DB590D175 /* Seasonal */ = {
+			isa = PBXGroup;
+			children = (
+				4CFF32C760686BC159E9887E /* SeasonalScene.swift */,
+				4760CDB380076CE00731E946 /* SeasonalTheme.swift */,
+				70E33986389A82328B1FAB6F /* Halloween */,
+			);
+			path = Seasonal;
+			sourceTree = "<group>";
+		};
 		294D1004B589EE037EA905BF /* Updates */ = {
 			isa = PBXGroup;
 			children = (
@@ -80,6 +135,7 @@
 			isa = PBXGroup;
 			children = (
 				71097D06D2E146E8D8F033D4 /* ReBezel */,
+				69F867E51D73255E4780A10B /* ReBezelTests */,
 				835F5E18EB873B0C84C547A1 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -98,9 +154,34 @@
 			isa = PBXGroup;
 			children = (
 				CAF38B3F0CD57C93A65E142E /* AppDelegate.swift */,
+				C9B6EE1024B462005F616B97 /* BezelDebugMenu.swift */,
 				B82A104F85EE944130274764 /* main.swift */,
 			);
 			path = App;
+			sourceTree = "<group>";
+		};
+		69F867E51D73255E4780A10B /* ReBezelTests */ = {
+			isa = PBXGroup;
+			children = (
+				2AD23C640CE5F8D90B35A61A /* BatColonyTests.swift */,
+				0F9BC4D055BB362337CC6A75 /* HalloweenAssetsTests.swift */,
+				32DBD4C9458B1540DC5A244C /* HUDTransitionTrackerTests.swift */,
+				F30207189575DE83BF253E16 /* SeasonalThemeTests.swift */,
+			);
+			path = ReBezelTests;
+			sourceTree = "<group>";
+		};
+		70E33986389A82328B1FAB6F /* Halloween */ = {
+			isa = PBXGroup;
+			children = (
+				3AFFDAF9B228D447D1FB9B09 /* BatColony.swift */,
+				EA7D17E1D6226B692DCF400F /* HalloweenAssets.swift */,
+				04A42027CB0B5E74BC801AA2 /* HalloweenPalette.swift */,
+				CECEF8FA17168DFD3CFA62FC /* HalloweenScene.swift */,
+				846795841616FCCAA63DF492 /* PumpkinGlyph.swift */,
+				BD88E67A0DB2F0EAC10844C3 /* Animations */,
+			);
+			path = Halloween;
 			sourceTree = "<group>";
 		};
 		71097D06D2E146E8D8F033D4 /* ReBezel */ = {
@@ -114,6 +195,7 @@
 				93BFB35721B6DDA6088FF8E6 /* HUD */,
 				1A9DCAAE9AE4435C6096110A /* MediaKeys */,
 				ADA08660F1986BF486F45841 /* Onboarding */,
+				237F26E577E4D25DB590D175 /* Seasonal */,
 				5357CE50D350D4ABFBD0F53F /* Settings */,
 				7667D9AE76D0F7D4767CA933 /* System */,
 				294D1004B589EE037EA905BF /* Updates */,
@@ -135,6 +217,7 @@
 			isa = PBXGroup;
 			children = (
 				9C69C95FFC1A6D1EFE206B68 /* ReBezel.app */,
+				A1C883AB72ED78519F7B456B /* ReBezelTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -143,6 +226,7 @@
 			isa = PBXGroup;
 			children = (
 				32EC313922E8C334D67A3B38 /* HUDPanel.swift */,
+				46DA6880EA421BF5088821A7 /* HUDReading.swift */,
 				527124EAFF475CC2382C60D7 /* HUDView.swift */,
 				F2439F22543C412740E22419 /* HUDWindowController.swift */,
 			);
@@ -155,6 +239,16 @@
 				C8BCFEFDD7FFC8AB0236B3D9 /* OnboardingWindowController.swift */,
 			);
 			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		BD88E67A0DB2F0EAC10844C3 /* Animations */ = {
+			isa = PBXGroup;
+			children = (
+				37B52CD9019C31374D700767 /* bat-flying.json */,
+				28A9878F713A4F458EDA5D84 /* pumpkin.json */,
+				3EAF78655A857CC49DC379B1 /* spider.json */,
+			);
+			path = Animations;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -175,10 +269,29 @@
 			name = ReBezel;
 			packageProductDependencies = (
 				CA8F2D2FB87DB84E7AD08FB8 /* Sparkle */,
+				DEFD0F51EAE822B7B53E0028 /* Lottie */,
 			);
 			productName = ReBezel;
 			productReference = 9C69C95FFC1A6D1EFE206B68 /* ReBezel.app */;
 			productType = "com.apple.product-type.application";
+		};
+		D55E8D0E22D150C905EBF6C9 /* ReBezelTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 37DCBA6E98B6DA5A4489CA4A /* Build configuration list for PBXNativeTarget "ReBezelTests" */;
+			buildPhases = (
+				16B420C9DD2CFAF15FAC148E /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				10C03E945BC9218B06190503 /* PBXTargetDependency */,
+			);
+			name = ReBezelTests;
+			packageProductDependencies = (
+			);
+			productName = ReBezelTests;
+			productReference = A1C883AB72ED78519F7B456B /* ReBezelTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -193,6 +306,9 @@
 						DevelopmentTeam = SPRLQ9JET8;
 						ProvisioningStyle = Automatic;
 					};
+					D55E8D0E22D150C905EBF6C9 = {
+						DevelopmentTeam = SPRLQ9JET8;
+					};
 				};
 			};
 			buildConfigurationList = 893399FE614354A8B63AF789 /* Build configuration list for PBXProject "ReBezel" */;
@@ -205,6 +321,7 @@
 			mainGroup = 41B07A8016F34F13B2BC69A2;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
+				889F3C74C8A4CA2987FF68E1 /* XCRemoteSwiftPackageReference "lottie-spm" */,
 				A6E91A628A786363218F01B7 /* XCRemoteSwiftPackageReference "Sparkle" */,
 			);
 			preferredProjectObjectVersion = 77;
@@ -213,6 +330,7 @@
 			projectRoot = "";
 			targets = (
 				7DBA98EB60AE7AF8E8320151 /* ReBezel */,
+				D55E8D0E22D150C905EBF6C9 /* ReBezelTests */,
 			);
 		};
 /* End PBXProject section */
@@ -224,34 +342,65 @@
 			files = (
 				9DFB194BED7618EF3CB4FA0E /* AppIcon.icon in Resources */,
 				37774FCE93D4ED7D229F2CDB /* Assets.xcassets in Resources */,
+				943045D31DF7D16802321555 /* bat-flying.json in Resources */,
+				2ADC3E724B4909F95B73045D /* pumpkin.json in Resources */,
+				8417CCA257E884657CE3BF4B /* spider.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		16B420C9DD2CFAF15FAC148E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C16CF3D75C50D5BBD56C3CA8 /* BatColonyTests.swift in Sources */,
+				885B4080D59A03EFE2F818EC /* HUDTransitionTrackerTests.swift in Sources */,
+				F332FFBBCA93EB7CB7ECA37A /* HalloweenAssetsTests.swift in Sources */,
+				4BC0FE56CAB265BF187362B1 /* SeasonalThemeTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		248D0FA5F7EE364298413A95 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				FE2B261582DF7419AB053381 /* AppDelegate.swift in Sources */,
 				FE5B3AE8ACDBD25E7E95D535 /* AppUpdater.swift in Sources */,
+				1F3A50B6B0EA497B05DCB2C8 /* BatColony.swift in Sources */,
+				7C027A5D7917D1DE3E87911E /* BezelDebugMenu.swift in Sources */,
 				658721771DB74801BA46F504 /* BrightnessController.swift in Sources */,
 				922D8F8A11B397A18363004D /* HUDPanel.swift in Sources */,
+				9EC82BE9AA994AFFDA2D0F75 /* HUDReading.swift in Sources */,
 				B83312C9ED5EACE14BA4DC4E /* HUDView.swift in Sources */,
 				074ACFA43AD533FFBC249977 /* HUDWindowController.swift in Sources */,
+				5EAA7029E411D51CCB1373A7 /* HalloweenAssets.swift in Sources */,
+				B0CE64370AFBFDC85E88908D /* HalloweenPalette.swift in Sources */,
+				8225C0ACDA411E01EFFD90CE /* HalloweenScene.swift in Sources */,
 				C0357FED7AB63734773928BF /* LaunchAtLogin.swift in Sources */,
 				EC93699F042C8005BAD39CA9 /* LevelChangeObserver.swift in Sources */,
 				10172624F2C1B53ED6DCF67E /* MediaKeyTap.swift in Sources */,
 				116F92CA4FE14A37C54E468F /* OnboardingWindowController.swift in Sources */,
 				6B4ABDFF2292E059833443D0 /* Preferences.swift in Sources */,
 				8D8980409AD95FCB9B748391 /* PreferencesWindowController.swift in Sources */,
+				7C4AE834020394D1B3F3CA33 /* PumpkinGlyph.swift in Sources */,
+				5DDEF70AD89150E6D3BFC82C /* SeasonalScene.swift in Sources */,
+				79A88D8FB87C696FB2242A2C /* SeasonalTheme.swift in Sources */,
 				27F359EBAE14F1FD683C32CD /* VolumeController.swift in Sources */,
 				F6359EFE629A4967B1FECD69 /* main.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		10C03E945BC9218B06190503 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7DBA98EB60AE7AF8E8320151 /* ReBezel */;
+			targetProxy = 7117DAF28989C580EE8D93A2 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		13FA20B83F66C33BD10753FE /* Debug */ = {
@@ -398,6 +547,24 @@
 			};
 			name = Release;
 		};
+		97083890951BB40F8F5493A1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.simonelhoej.ReBezelTests;
+				SDKROOT = macosx;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ReBezel.app/Contents/MacOS/ReBezel";
+			};
+			name = Debug;
+		};
 		D75CAF97F3020B4E241B1E3F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -421,9 +588,36 @@
 			};
 			name = Release;
 		};
+		F75860AB54E64420E0DEBAD8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.simonelhoej.ReBezelTests;
+				SDKROOT = macosx;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ReBezel.app/Contents/MacOS/ReBezel";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		37DCBA6E98B6DA5A4489CA4A /* Build configuration list for PBXNativeTarget "ReBezelTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				97083890951BB40F8F5493A1 /* Debug */,
+				F75860AB54E64420E0DEBAD8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
 		58FFC77DDAAB3622483A885A /* Build configuration list for PBXNativeTarget "ReBezel" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -445,6 +639,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		889F3C74C8A4CA2987FF68E1 /* XCRemoteSwiftPackageReference "lottie-spm" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/airbnb/lottie-spm";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.6.1;
+			};
+		};
 		A6E91A628A786363218F01B7 /* XCRemoteSwiftPackageReference "Sparkle" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/sparkle-project/Sparkle";
@@ -460,6 +662,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = A6E91A628A786363218F01B7 /* XCRemoteSwiftPackageReference "Sparkle" */;
 			productName = Sparkle;
+		};
+		DEFD0F51EAE822B7B53E0028 /* Lottie */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 889F3C74C8A4CA2987FF68E1 /* XCRemoteSwiftPackageReference "lottie-spm" */;
+			productName = Lottie;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
